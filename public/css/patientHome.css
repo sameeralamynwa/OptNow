@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+h1,h3{
+    /* font-family: 'Pacifico', cursive; */
+    font-family: 'Indie Flower', cursive;
+}
+.svs{
+    width: 70%;
+    margin: auto;
+    flex-wrap: wrap;
+
+    gap: 2rem;
+    text-align: center;
+
+}
+.service{
+    width: 25%;
+    height: 100%;
+    justify-content: center;
+}
+.service button{
+    color: black;
+    border-color: #020024;
+    cursor: pointer;
+    background-color: transparent;
+}
+.service button:hover{
+    background-color: #020024;
+    color: #FBC02D;
+}

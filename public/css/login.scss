@@ -1,0 +1,99 @@
+@mixin phone-screen {
+    @media (max-width: 576px) {
+      @content;
+    }
+  }
+  
+  * {
+    box-sizing: border-box;
+    font-family: "Open Sans", sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .flex-column-centered {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .login-div {
+    min-height: 100vh;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+      url("https://unsplash.com/photos/jbywvpa9vH8/download?force=true&w=1920");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  
+    .login-comps {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+      padding: 2em;
+      color: white;
+    }
+  
+    form {
+      padding: 20px 0;
+      position: relative;
+      z-index: 2;
+  
+      input[type="text"],
+      input[type="password"] {
+        margin: 0.5rem auto;
+        background: rgba(80, 227, 194, 0.2);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        padding: 0.5em;
+        width: 400px;
+        outline: none;
+      }
+  
+      input[type="text"]:focus,
+      input[type="password"]:focus {
+        background-color: rgba(255, 255, 255, 0.329);
+        color: white;
+      }
+  
+      input[type="submit"] {
+        background: black;
+        color: white;
+        border-radius: 5px;
+        margin: 0.5rem auto;
+        padding: 0.5rem;
+        width: 250px;
+        border: none;
+      }
+  
+      input[type="submit"]:active {
+        transform: scale(0.95);
+      }
+  
+      input[type="text"]::placeholder,
+      input[type="password"]::placeholder {
+        color: white;
+      }
+    }
+  
+    .text-center {
+      text-align: center;
+    }
+  
+    a {
+      text-decoration: none;
+      color: white;
+    }
+  
+    @include phone-screen() {
+      padding: 2rem 1.5rem !important;
+  
+      .login-comps,
+      input[type="text"],
+      input[type="password"] {
+        width: 100% !important;
+      }
+    }
+  }
+  

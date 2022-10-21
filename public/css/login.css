@@ -1,0 +1,136 @@
+/* * {
+  box-sizing: border-box;
+  font-family: "Open Sans", sans-serif;
+  margin: 0;
+  padding: 0;
+} */
+input{
+  color: white;
+
+}
+.flex-column-centered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-div {
+  
+  min-height: 100vh;
+  width: 100%;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("/img/slide1.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.login-div .login-comps {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+  padding: 2em;
+  color: white;
+}
+.login-div form {
+  padding: 20px 0;
+  position: relative;
+  z-index: 2;
+}
+.login-div form input[type=text],
+.login-div form input[type=password] {
+  margin: 0.5rem auto;
+  background: rgba(31, 33, 33, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(39, 39, 45, 0.37);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 0.5em;
+  /* width: 400px; */
+  width: fit-content;
+  min-width: 40vh;
+
+
+
+  outline: none;
+}
+.login-div form input[type=text]:focus,
+.login-div form input[type=password]:focus {
+  background-color: rgba(255, 255, 255, 0.329);
+  color: white;
+}
+.login-div form input[type=submit] {
+  background: black;
+  color: white;
+  border-radius: 5px;
+  margin: 0.5rem auto;
+  padding: 0.5rem;
+  /* width: 250px; */
+  border: none;
+}
+#submit{
+  color: white;
+  background-color: black;
+
+}
+.login-div form input[type=submit]:active {
+  transform: scale(0.95);
+}
+.login-div form input[type=text]::-moz-placeholder, .login-div form input[type=password]::-moz-placeholder {
+  color: white;
+}
+.login-div form input[type=text]:-ms-input-placeholder, .login-div form input[type=password]:-ms-input-placeholder {
+  color: white;
+}
+.login-div form input[type=text]::placeholder,
+.login-div form input[type=password]::placeholder {
+  color: white;
+}
+.login-div .text-center {
+  text-align: center;
+}
+.login-div a {
+  text-decoration: none;
+  color: white;
+}
+p{
+  margin: 0px;
+  padding: 0px;
+}
+#submit{
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+
+
+}
+#submit:hover{ 
+  border: none;
+
+  background-color: white;
+  color: black;
+  transition: 0.3s;
+}
+.type{
+  display: flex;
+  width: 100%;
+  gap: 30px;
+}
+.type span{
+  /* display: inline-block; */
+  white-space: nowrap;
+    /* overflow-x: auto; */
+}
+select{
+  width: 70%;
+}
+@media (max-width: 576px) {
+  .login-div {
+    padding: 2rem 1.5rem !important;
+  }
+  .login-div .login-comps,
+.login-div input[type=text],
+.login-div input[type=password] {
+    width: 100% !important;
+  }
+}/*# sourceMappingURL=login.css.map */

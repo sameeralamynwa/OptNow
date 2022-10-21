@@ -1,0 +1,70 @@
+<link rel="stylesheet" href="/css/patientHome.css">
+<h1 class="text-center">welcome <%= username %> </h1>
+<h3 class="text-center">your services</h3>
+<div class="svs d-flex flex-row justify-content-center align-items-center flex-wrap">
+    <div class="service d-flex flex-column ">
+        <img src="/img/aptmnt.jpg" alt="alt text">
+        <button type="button" data-toggle="modal" data-target="#exampleModal">
+            Book an appointment
+        </button>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Select doctor specialisation</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <select class="form-control" id="userType">
+                        <option value="" selected>Family Medicine</option>
+                        <option value="">Internal Medicine</option>
+                        <option value="">Pediatrician</option>
+                        <option value="">Gynecologist</option>
+                        <option value="">Cardiologist</option>
+                        <option value="">Oncologist</option>
+                        <option value="">Gastroenterologist</option>
+                        <option value="">Pulmonologist</option>
+                        <option value="">Infectious disease</option>
+                        <option value="">Nephrologist</option>
+                        <option value="">Endocrinologist</option>
+                        <option value="">ENT</option>
+                        <option value="">Dermatologist</option>
+                        <option value="">Psychiatrist</option>
+                        <option value="">Neurologist</option>
+                        <option value="">Radiologist</option>
+                        <option value="">Anesthesiologist</option>
+                        <option value="">Surgeon</option>
+                        <option value="">Physician executive</option>
+                    </select>
+      
+                </div>
+                <div class="modal-footer">
+                  <button id="searchDoctor" type="button" class="btn btn-secondary">Search</button>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+    <div class="service d-flex flex-column ">
+        <img src="/img/pres.webp" alt="alt text">
+        <button type="button" data-toggle="modal" data-target="#exampleModal">
+            Check your prescriptions
+        </button>
+    </div>
+    <div class="service d-flex flex-column ">
+        <img src="/img/store.jpg" alt="alt text">
+        <button type="button" data-toggle="modal" data-target="#exampleModal">
+            Check nearby stores
+        </button>
+    </div>
+    <div class="service d-flex flex-column ">
+        <img src="/img/rehos.jpg" alt="alt text">
+        <button type="button" data-toggle="modal" data-target="#exampleModal">
+            Check model scores
+        </button>
+    </div>
+    
+
+</div>

@@ -1,0 +1,124 @@
+/* IMPORTS */
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+/*  */
+.carousel-item {
+
+    height: 100vh;
+    min-height: 300px;
+    background: no-repeat center center scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    /* background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center; */
+  }
+  .carousel-caption {
+    background-color: rgb(45, 42, 42);
+    color: white;
+    /* bottom: 270px; */
+    bottom: 35vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+  }
+  .navbar{
+    /* background-color: rgb(32, 52, 72); */
+    
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 67%, rgba(8,77,96,1) 100%);
+    /* z-index: -1; */
+  }
+  .carousel-caption h5 {
+    font-size: 45px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 25px;
+  }
+  
+  .carousel-caption p {
+    width: 75%;
+    margin: auto;
+    font-size: 18px;
+    line-height: 1.9;
+  }
+  
+  .navbar-light .navbar-brand {
+    color: #fff;
+    font-size: 25px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 2px;
+  }
+  
+  .navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link {
+    color: #FBC02D;
+  }
+  
+  .navbar-light .navbar-nav .nav-link {
+    color: #fff;
+  }
+  
+  .navbar-toggler {
+    background: #fff;
+  }
+  
+  .navbar-nav {
+    text-align: center;
+  }
+  
+  .nav-link {
+    font-family: 'Lato', sans-serif;
+    padding: .2rem 1rem;
+  }
+  
+  .nav-link.active,.nav-link:focus{
+    color: #FBC02D;
+  }
+  
+  .navbar-toggler {
+    padding: 1px 5px;
+    font-size: 18px;
+    line-height: 0.3;
+  }
+  .navbar-brand:hover{
+    color: #FBC02D !important;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+  .navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link:hover {
+    color: #FBC02D;
+  }
+  /* HOVER */
+  ul a:hover{
+    color: #FBC02D !important;
+    /* color: black !important; */
+  }
+  nav li{
+      text-align: center;
+      /* text-transform: uppercase; */
+  }
+  li > a:after{
+      content: '';
+      display: block;
+      height: 1.5px;
+      background: #FBC02D;
+      /* background: FBC02D; */
+
+      transform: scaleX(0);
+      transition: transform .3s;
+  }
+  li > a:hover:after{
+      transform: scaleX(1);
+      transition: transform .3s;
+  }
+  .active{
+      color: #FBC02D !important;
+      /* color: black !important; */
+  }
+  
+  

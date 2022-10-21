@@ -1,0 +1,41 @@
+
+<div class="login-div flex-column-centered">
+    <div class="login-comps">
+      <h1 class="text-center">Login</h1>
+      <form class="flex-column-centered">
+        <!-- <li class="dropdown">
+            <button id="options" aria-expanded="false" aria-haspopup="true" role="button" data-toggle="dropdown" class="dropdown-toggle" >User Type<span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a >Patient</a></li>
+                    <li><a >Doctor</a></li>
+                    <li><a >Vendor</a></li>
+                </ul>
+        </li> -->
+        <div class="type">
+            <span>User Type</span>
+            <select class="form-control" id="userType">
+                <option value="" selected>Patient</option>
+                <option value="">Doctor</option>
+                <option value="">Vendor</option>
+            </select>
+        </div>
+        <input type="text" name="user" id="user" placeholder="Username" required>
+        <input type="password" name="password" id="password" placeholder="Password" required>
+        <button id="submit">Submit</button>
+      </form>
+      <a href="#">
+        <p class="text-center">Forgot Password?</p>
+      </a>
+    </div>
+  </div>
+  <link rel="stylesheet" href="/css/login.css">
+
+
+<script>
+
+    $(document).ready(function(){
+        $(".dropdown-menu li a").click(function(){
+        $("#options").text($(this).text());
+        });
+    });
+</script>
