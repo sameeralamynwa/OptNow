@@ -40,6 +40,9 @@ const clinicSchema = new mongoose.Schema({
     },
     long : {
         type : String
+    },
+    state : {
+        type : String
     }
 });
 

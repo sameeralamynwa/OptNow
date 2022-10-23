@@ -45,7 +45,7 @@ const doctorSchema = new mongoose.Schema({
     lat : {
         type : String,
     },
-    lon : {
+    long : {
         type : String
     },
     charges : {
@@ -57,7 +57,7 @@ const doctorSchema = new mongoose.Schema({
     special : {
         type : String
     },
-    zip : {
+    pin : {
         type : String
     },
     util : {

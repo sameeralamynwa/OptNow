@@ -64,10 +64,42 @@ module.exports.registerClinic = async function registerClinic(req , res){
         pin : req.body.zipcode,
         city : req.body.city,
         lat : location.latitude,
-        long : location.longitude
+        long : location.longitude,
+        state : location.state
     });
     // console.log(newClinic);
+    // console.log(location);
     return res.render('index.ejs', {
         name : "homepage"
     });
 }
+
+module.exports.registerDoctor = async function registerDoctor(req, res){
+
+    let hisClinic = await clinicModel.findOne({
+        id : req.body.clinicId
+    });
+    let hisUtil = Math.floor(Math.random() * (100));
+    let newDoc = await doctorModel.create({
+        clinicId : req.body.clinicId,
+        firstName : req.body.firstName,
+        lastName : req.body.lastName,
+        password : req.body.password,
+        email : req.body.email,
+        contact : req.body.contact,
+        alternate_contact : req.body.alternate_contact,
+        state : hisClinic.state,
+        city : hisClinic.city,
+        lat : hisClinic.lat,
+        long : hisClinic.long,
+        charges : req.body.charges,
+        degree : req.body.degree,
+        special : req.body.special,
+        pin : hisClinic.pin,
+        util : hisUtil
+    });
+    console.log(newDoc);
+    return res.render('index.ejs', {
+        name : "Doctor Registered"
+    });
+};
