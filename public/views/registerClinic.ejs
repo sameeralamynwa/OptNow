@@ -1,0 +1,131 @@
+ <!-- Page Title -->
+
+     <!-- Bootstrap 5 -->
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+     <link rel="stylesheet" href="css/layout.css">
+     <!-- <link rel="stylesheet" href="css/login.css"> -->
+
+    <style>
+      body{
+        background-color: lightyellow;
+      }
+      #submit{
+        background-color: black;
+        color: white;
+      }
+      .bgborder{
+        margin: 2rem  5rem;
+        padding-bottom:1rem ;
+        border: 4px solid black;
+      }
+      #submit:hover{
+        background-color: white;
+        color: black;
+      }
+    </style>
+
+<div class="login-div flex-column-centered bgborder">     
+  <div class="login-comps">
+
+<header class="page-header mx-auto col-md-7 my-4">
+<h1 class="page-title">Clinic Signup</h1>
+</header>
+
+
+<div class="d-flex mx-auto col-md-7">
+
+
+<!--Form Starting-->
+
+
+<form class="row g-3 needs-validation" oninput="mySignupValidator()" action="/auth/registerPractice" method="POST" novalidate>
+    
+    <div class="col-md-6">
+      <label for="name" class="form-label">Clinic name</label>
+      <input type="text" class="form-control" id="name" name="name" required>
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+    </div>
+
+
+    <div class="col-md-6">
+      <label for="email" class="form-label">Email</label>
+      <input type="email" class="form-control" id="email" name="email" required>
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <label for="contact" class="form-label">Contact Number</label>
+      <input type="tel" class="form-control" id="contact" name="contact" pattern="[0-9]{10}" required>
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+      <div class="invalid-feedback">
+        10 Digits please !
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <label for="alt-contact-no" class="form-label">Alternative Contact Number</label>
+      <input type="tel" class="form-control" id="alt-contact-no" pattern="[0-9]{10}" placeholder="Optional">
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+      <div class="invalid-feedback">
+        10 Digits please !
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <label for="address" class="form-label">Address</label>
+      <input type="text" class="form-control" id="address" name="address" placeholder="Example : 330 Mount Auburn Street" required>
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <label for="zip" class="form-label">Zip</label>
+      <input type="text" class="form-control" id="zip" name="zip" pattern="[0-9]*" required>
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <label for="city" class="form-label">City</label>
+      <select class="form-select" id="city" name="city" required>
+        <option selected disabled value="">City</option>
+        <option>Bhilwara</option>
+        <option>Chandigarh</option>
+        <option>Delhi</option>
+        <option>Jaisalmer</option>
+        <option>Patiala</option>
+      </select>
+      <div class="invalid-feedback">
+        Please select a valid city.
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+        <label class="form-check-label" for="invalidCheck">
+          Agree to terms and conditions
+        </label>
+        <div class="invalid-feedback">
+          You must agree before submitting.
+        </div>
+      </div>
+    </div>
+    <div class="col-12 mt-3">
+      <button id="submit" class="btn btn-orange" type="submit">Submit form</button>
+    </div>
+  </form>
+</div>
+</div>
+</div>
