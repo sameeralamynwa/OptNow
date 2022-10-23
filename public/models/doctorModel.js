@@ -3,14 +3,14 @@ const db_link = 'mongodb+srv://admin:23243535@cluster0.xbnsp.mongodb.net/?retryW
 
 mongoose.connect(db_link)
     .then(function (db) {
-        console.log('db connected for patients');
+        console.log('db connected for doctors');
     })
     .catch(function (err) {
         console.log(err);
     });
 
-const patientSchema = new mongoose.Schema({
-    patientId: {
+const doctorSchema = new mongoose.Schema({
+    clinicId: {
         type : String , 
         required : true
     },
@@ -21,19 +21,6 @@ const patientSchema = new mongoose.Schema({
     lastName : {
         type: String
     },
-    marital : {
-        type : Boolean
-    },
-    race : {
-        type : String
-    },
-    ethnicity : {
-        tyep : String
-    },
-    gender : {
-        type : String
-    },
-
     password : {
         type : String ,
         default : ''
@@ -49,24 +36,35 @@ const patientSchema = new mongoose.Schema({
     alternate_contact : {
         type : String,
     },
-    address : {
+    state : {
         type : String
     },
     city : {
         type : String
     },
-    country : {
+    lat : {
+        type : String,
+    },
+    lon : {
         type : String
     },
-    age : {
-        type : String,
-        required : true
+    charges : {
+        type : String
+    }, 
+    degree : {
+        type : String
     },
-    records : {
-        type : [],
+    special : {
+        type : String
+    },
+    zip : {
+        type : String
+    },
+    util : {
+        type : String
     }
 });
 
-const patientModel = mongoose.model('patientModel' , patientSchema);
+const doctorModel = mongoose.model('doctorSchema' , doctorSchema);
 
-module.exports = patientModel;
+module.exports = doctorModel;
