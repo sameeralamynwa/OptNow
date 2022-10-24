@@ -62,6 +62,9 @@ const doctorSchema = new mongoose.Schema({
     },
     util : {
         type : String
+    },
+    apts : {
+        type : []
     }
 });
 

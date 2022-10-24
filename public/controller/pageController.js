@@ -103,3 +103,57 @@ module.exports.registerDoctor = async function registerDoctor(req, res){
         name : "Doctor Registered"
     });
 };
+
+module.exports.getDocs = async function getDocs(req, res){
+
+    let currUser = await patientModel.findOne({
+        // patientId : req.cookies.patientId,
+        patientId : "1"
+        ////////////////////////////////////
+    });
+    let allDocs = await doctorModel.find({
+        city : currUser.city,
+        special : req.params.sp
+    });
+    let allClinics = [];
+    for(let i = 0; i < allDocs.length; ++i){
+        let currClinic = await clinicModel.findOne({
+            id : allDocs[i].clinicId
+        });
+        allClinics.push(currClinic)
+    }
+    return res.json({
+        // data : "done",
+        special : req.params.sp,
+        docs : allDocs,
+        clinics : allClinics
+    });
+};
+
+module.exports.selectDoctor = async function selectDoctor(req, res){
+
+    let currDoc = await doctorModel.findById(req.body.docId);
+    let currClinic = await clinicModel.find({
+        id : currDoc.clinicId
+    });
+
+    // res.cookie.doc = currDoc;
+    // return res.render('bookDoctor.ejs', {
+    //     name : 'Book Doctor',  
+    //     doc : currDoc
+    // });
+    return res.json({
+        doc : currDoc,
+        clinic : currClinic
+    })
+};
+
+module.exports.bookDoctor = async function bookDoctor(req, res){
+
+    let currDoc = await doctorModel.findOne({
+        id : req.body.docId
+    });
+
+    
+
+}
