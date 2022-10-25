@@ -64,7 +64,13 @@ const patientSchema = new mongoose.Schema({
     },
     records : {
         type : [],
-    }
+    },
+    lat : {
+        type : String
+    },
+    long : {
+        type : String
+    },
 });
 
 const patientModel = mongoose.model('patientModel' , patientSchema);

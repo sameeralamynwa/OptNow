@@ -69,8 +69,8 @@ module.exports.registerClinic = async function registerClinic(req , res){
     });
     // console.log(newClinic);
     // console.log(location);
-    return res.render('index.ejs', {
-        name : "homepage"
+    return res.json({
+        data : newClinic
     });
 }
 
@@ -103,7 +103,23 @@ module.exports.registerDoctor = async function registerDoctor(req, res){
         name : "Doctor Registered"
     });
 };
-
+function distance(lat1, lon1, lat2, lon2) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(lat2-lat1);  // deg2rad below
+    var dLon = deg2rad(lon2-lon1); 
+    var a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+      Math.sin(dLon/2) * Math.sin(dLon/2)
+      ; 
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    var d = R * c; // Distance in km
+    return d;
+  }
+  
+function deg2rad(deg) {
+    return deg * (Math.PI/180)
+}
 module.exports.getDocs = async function getDocs(req, res){
 
     let currUser = await patientModel.findOne({
@@ -112,7 +128,7 @@ module.exports.getDocs = async function getDocs(req, res){
         ////////////////////////////////////
     });
     let allDocs = await doctorModel.find({
-        city : currUser.city,
+        // city : currUser.city,
         special : req.params.sp
     });
     let allClinics = [];
@@ -120,12 +136,18 @@ module.exports.getDocs = async function getDocs(req, res){
         let currClinic = await clinicModel.findOne({
             id : allDocs[i].clinicId
         });
+        currClinic.doc = allDocs[i];
+        // console.log(currClinic);
         allClinics.push(currClinic)
     }
+    // console.log(allClinics);
+    allClinics.sort((a, b) =>
+    distance(a.lat, a.long, currUser.lat, currUser.long) -
+    distance(b.lat, b.long, currUser.lat, currUser.long)
+    );
     return res.json({
         // data : "done",
         special : req.params.sp,
-        docs : allDocs,
         clinics : allClinics
     });
 };
@@ -142,18 +164,60 @@ module.exports.selectDoctor = async function selectDoctor(req, res){
     //     name : 'Book Doctor',  
     //     doc : currDoc
     // });
-    return res.json({
-        doc : currDoc,
-        clinic : currClinic
-    })
+    return res.render('bookapt.ejs', {
+        name : 'Schedule APT',
+        clinic : currClinic,
+        doc : currDoc
+    });
 };
 
 module.exports.bookDoctor = async function bookDoctor(req, res){
 
-    let currDoc = await doctorModel.findOne({
-        id : req.body.docId
-    });
-
+    let currDoc = await doctorModel.findById(req.body.doctorId);
+    // console.log(currDoc);
+    let canBook = true;
+    if (currDoc)
+        for (var i = 0; i < currDoc.apts.length; ++i){
+            if (currDoc.apts[i].date == req.body.date &&
+                currDoc.apts[i].time == req.body.time)
+                canBook = false;
+        }
+    // console.log(currDoc)
+    // console.log(canBook, currDoc.apts);
+    if (canBook == true){
+        currDoc.apts.push({
+            date : req.body.date,
+            time : req.body.time,
+            patientId : req.cookies.patientId,
+            description : req.body.description
+        });
+        let updated = await doctorModel.findByIdAndUpdate(req.body.doctorId, {apts : currDoc.apts});
+        // console.log(updated.apts);
+        return res.send({
+            data : "APT BOOKED"
+        });
+    }
+    else {
+        return res.send({
+            data : "CHOOSE ANOTHER SLOT"
+        });
+    }
     
 
 }
+
+module.exports.showPrescriptions = async function showPrescriptions(req, res){
+
+    let currUser = patientModel.findOne({
+        id : req.cookies.patientId
+    });
+
+    return res.render('viewPrescriptions.ejs', {
+        name : "View Prescriptions",
+        records : currUser.records
+    });
+};
+
+
+
+// patientId cookie MUST for performing patient operations

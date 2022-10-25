@@ -27,6 +27,9 @@ pageRouter.route('/apt/:sp')
 pageRouter.route('/bookDoctor')
 .post(bookDoctor)
 
+pageRouter.route('/viewPrescriptions')
+.get(showPrescriptions)
+
 pageRouter.route('/')
 .get(getHome);
 
