@@ -38,7 +38,7 @@ const patientSchema = new mongoose.Schema({
         type : String ,
         default : ''
     },
-    email: {
+    email  : {
         type: String, 
         required : true
     },
@@ -71,6 +71,12 @@ const patientSchema = new mongoose.Schema({
     long : {
         type : String
     },
+    apts : {
+        type : []
+    },
+    pin : {
+        type : String
+    }
 });
 
 const patientModel = mongoose.model('patientModel' , patientSchema);

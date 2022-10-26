@@ -1,9 +1,8 @@
-
 <div class="login-div flex-column-centered">
-    <div class="login-comps">
-      <h1 class="text-center">Login</h1>
-      <form class="flex-column-centered">
-        <!-- <li class="dropdown">
+  <div class="login-comps">
+    <h1 class="text-center">Login</h1>
+    <form class="flex-column-centered">
+      <!-- <li class="dropdown">
             <button id="options" aria-expanded="false" aria-haspopup="true" role="button" data-toggle="dropdown" class="dropdown-toggle" >User Type<span class="caret"></span></button>
                 <ul class="dropdown-menu">
                     <li><a >Patient</a></li>
@@ -11,31 +10,60 @@
                     <li><a >Vendor</a></li>
                 </ul>
         </li> -->
-        <div class="type">
-            <span>User Type</span>
-            <select class="form-control" id="userType">
-                <option value="" selected>Patient</option>
-                <option value="">Doctor</option>
-                <option value="">Vendor</option>
-            </select>
-        </div>
-        <input type="text" name="user" id="user" placeholder="Username" required>
-        <input type="password" name="password" id="password" placeholder="Password" required>
-        <button id="submit">Submit</button>
-      </form>
-      <a href="#">
-        <p class="text-center">Forgot Password?</p>
-      </a>
-    </div>
+      <div class="type">
+        <span>User Type</span>
+        <select class="form-control" id="userType">
+          <option value="" selected>Patient</option>
+          <option value="">Doctor</option>
+          <option value="">Vendor</option>
+        </select>
+      </div>
+      <input type="text" name="user" id="user" placeholder="Username" required>
+      <input type="password" name="password" id="password" placeholder="Password" required>
+      <button id="submit">Submit</button>
+    </form>
+    <a href="#">
+      <p class="text-center">Forgot Password?</p>
+    </a>
   </div>
-  <link rel="stylesheet" href="/css/login.css">
+</div>
+<link rel="stylesheet" href="/css/login.css">
 
 
 <script>
 
-    $(document).ready(function(){
-        $(".dropdown-menu li a").click(function(){
-        $("#options").text($(this).text());
-        });
+  $(document).ready(function () {
+    $(".dropdown-menu li a").click(function () {
+      $("#options").text($(this).text());
     });
+  });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+
+  let btnLog = document.getElementById('submit');
+  // console.log(btnLog);
+  btnLog.addEventListener('click', async function (e) {
+    // here username is the firstName in DB
+    e.preventDefault();
+    let username = document.getElementById('user').value;
+    let password = document.getElementById('password').value;
+    // console.log(username);
+    var x = document.getElementById("userType");
+    console.log(x);
+    var strUserType = x.options[x.selectedIndex].value;
+    // console.log(strUser);
+    // console.log(username);
+    let resp = await axios.post('/login', { username, password, strUserType });
+    console.log('resp->', resp);
+    //TODO
+    if (resp.data != 'user Logged In successfully') {
+      let msg = resp.data;
+      alert(msg);
+    }
+    else {
+      alert('user Logged In successfully');
+      window.location = '/';
+    }
+  });
 </script>

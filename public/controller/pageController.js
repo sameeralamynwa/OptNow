@@ -2,6 +2,8 @@ const patientModel = require('../models/patientModel.js');
 const doctorModel = require('../models/doctorModel.js');
 const clinicModel = require('../models/clinicModel.js');
 const NodeGeocoder = require('node-geocoder');
+// import fetch from 'node-fetch';
+const fetch = require('node-fetch');
 
 const options = {
     provider : 'opencage',
@@ -50,8 +52,8 @@ module.exports.registerClinic = async function registerClinic(req , res){
     // console.log(nextId);
     const resp = await geocoder.geocode({
         address : req.body.address,
-        country : "India",
-        zipcode : req.body.pin
+        countrycode : "in"
+        // city : req.body.city
     });
     let location = resp[0];
     let newClinic = await clinicModel.create({
@@ -103,6 +105,41 @@ module.exports.registerDoctor = async function registerDoctor(req, res){
         name : "Doctor Registered"
     });
 };
+
+module.exports.registerPatient = async function registerPatient(req, res){
+    let nextId = await patientModel.countDocuments() + 1;
+    const resp = await geocoder.geocode({
+        address : req.body.address,
+        countrycode : "in"
+    });
+    let location = resp[0];
+    let newUser = await patientModel.create({
+        patientId : nextId,
+        firstName : req.body.firstName,
+        lastName : req.body.lastName,
+        marital : req.body.marital,
+        race : req.body.race,
+        ethnicity : req.body.ethnicity,
+        gender : req.body.gender,
+        pasasword : req.body.password,
+        email : req.body.email,
+        contact : req.body.contact,
+        alternate_contact : req.body.alternate_contact,
+        address : req.body.address,
+        pin : req.body.zipcode,
+        city : req.body.city,
+        lat : location.latitude,
+        long : location.longitude,
+        state : location.state,
+        country : req.body.country
+    });
+    // console.log(newClinic);
+    // console.log(location);
+    return res.json({
+        data : newUser
+    });
+
+}
 function distance(lat1, lon1, lat2, lon2) {
     var R = 6371; // Radius of the earth in km
     var dLat = deg2rad(lat2-lat1);  // deg2rad below
@@ -215,6 +252,20 @@ module.exports.showPrescriptions = async function showPrescriptions(req, res){
     return res.render('viewPrescriptions.ejs', {
         name : "View Prescriptions",
         records : currUser.records
+    });
+};
+
+module.exports.getChemists = async function getChemists(req, res){
+    let currUser = await patientModel.findOne({
+        // patientId : req.cookies.patientId
+        patientId : "1"
+    });
+    console.log(currUser);
+    const response = await fetch(`https://api.geoapify.com/v2/places?categories=healthcare.pharmacy,commercial.chemist,healthcare.hospital,healthcare.clinic_or_praxis,commercial.health_and_beauty,healthcare,building.healthcare&bias=proximity:${currUser.long},${currUser.lat}&limit=7&apiKey=c1c4dcb32cc54e2cb89efac279fbb99c`);
+    const data = await response.json();
+    return res.render('viewStores.ejs', {
+        name : "View Stores",
+        stores : data
     });
 };
 
