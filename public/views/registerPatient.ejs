@@ -39,8 +39,7 @@
 <!--Form Starting-->
 
 
-<form class="row g-3 needs-validation" method="POST" oninput="mySignupValidator()"
- novalidate>
+<form class="row g-3 needs-validation">
 
  <div class="col-md-6">
      <label for="fname" class="form-label">First name</label>
@@ -224,9 +223,70 @@
      </div>
  </div>
  <div class="col-12 mt-3">
-     <a  href="/completeProfile" id="submit" class="btn btn-orange btn-outline" onclick="passDataToNextPage()">Submit</a>
+     <a  href="/completeProfile" id="submit" class="btn btn-orange btn-outline" >Submit</a>
  </div>
 </form>
 </div>
 </div>
 </div>
+
+
+
+<!-- axios fetch -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<!-- script  -->
+<script>
+
+    let btn = document.getElementById('submit');
+    btn.addEventListener("click",async function (e) {
+
+    e.preventDefault();
+
+  let firstName = document.getElementById("fname").value;
+  let lastName = document.getElementById("lname").value;
+  let gender = document.getElementById("gender").value;
+  let marital = document.getElementById("marital-status").value;
+  let race = document.getElementById("race").value;
+  let ethnicity = document.getElementById("ethnicity").value;
+  let email = document.getElementById("email").value;
+  let age = document.getElementById("age").value;
+  let password = document.getElementById("password").value;
+  let cpassword = document.getElementById("confirmPassword").value;
+  let contact = document.getElementById("contact").value;
+  let alterante_contact = document.getElementById("altContact").value;
+  let address = document.getElementById("address").value;
+  let city = document.getElementById("city").value;
+  let country = document.getElementById("county").value;
+
+// console.log(fname,lname,email,password);
+
+        if (firstName == '' || email == '' || password == ''
+            || cpassword == '') {
+            alert('Fill all details');
+        }
+        else if (password != cpassword) {
+            alert('confirm-password not matching')
+        }
+        else {
+            if (String(email).toLowerCase().match(/^\S+@\S+\.\S+$/)) {
+                let resp = await axios.post('/registerPatient', {
+                    firstName,lastName,gender,marital,race,ethnicity,email,age,password,contact,alterante_contact,address,city,country
+                });
+
+                console.log(resp);
+                if (resp.data == 'done'){
+                    alert('Patient Registered');
+                }
+                else alert('Try Again');
+                
+            }
+            else {
+                alert('Enter valid email address');
+            }
+        }
+
+
+});
+
+</script>

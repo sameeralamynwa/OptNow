@@ -40,8 +40,7 @@
 
 
 
-<form class="row g-3 needs-validation" oninput="mySignupValidator()" action="/auth/doctorLogin" method="POST"
-novalidate>
+<form class="row g-3 needs-validation">
 
 <div class="col-md-2">
     <label for="clinic-id" class="form-label">Clinic ID</label>
@@ -81,7 +80,7 @@ novalidate>
 
 <div class="col-md-4">
     <label for="clinic-id" class="form-label">Charges every 15 min</label>
-    <input type="number" min="0" max="2500" class="form-control" id="clinic-id" name="consultingCharges"
+    <input type="number" min="0" max="2500" class="form-control" id="charge" name="consultingCharges"
         required>
     <div class="valid-feedback">
         Looks good!
@@ -125,7 +124,7 @@ novalidate>
 
 <div class="col-md-6">
     <label for="alt-contact-no" class="form-label">Alternative Contact Number</label>
-    <input type="tel" class="form-control" id="contact-no" name="altContactNo" pattern="[0-9]{10}"
+    <input type="tel" class="form-control" id="altContact-no" name="altContactNo" pattern="[0-9]{10}"
         placeholder="Optional">
     <div class="valid-feedback">
         Looks good!
@@ -174,3 +173,125 @@ novalidate>
 </div>
 </div>
 </div>
+
+
+
+
+<script>
+
+degreeTypes = {
+    MD: ["Anaesthesiology", "Biochemistry", "Community Health", "Dermatology", "Family Medicine", "Forensic Medicine", "General Medicine", "Microbiology", "Paediatrics", "Palliative Medicine", "Pathology", "Skin and Venereal diseases", "Pharmacology", "Physical Medicine and Rehabilitation", "Physiology", "Preventive and Social Medicine", "Psychiatry", "Radio-Diagnosis", "Radio-Therapy", "Tuberculosis and Respiratory diseases", "Emergency and Critical care", "Nuclear Medicine", "Transfusion Medicine", "Tropical Medicine"],
+    MS: ["ENT", "General Surgery", "Opthalmology", "Orthopaedics", "Obsetrics, and Gynaecology", "Dermatology, Vererology, and Leprosy"],
+    DNB: ["Anaesthesiology", "Anatomy", "Biochemistry", "Dermatology", "Emergency Medicine", "Family Medicine", "Field Epidemiology", "Forensic Medicine", "General Medicine", "General Surgery", "Health Administration"],
+    DM: ["Psychiatry", "Cardiology", "Cardiac-Anaesthesiology", "Pulmonary and Sleep disorders", "Cardiology", "Obstetrics and Gynecology", "Haematology", "Nuclear Medicine", "Pharmacology", "Cardiac-Radiology", "Anaesthesiology, Pain Medicine and Critical Care", "Paediatrics", "Endocrinology", "Nephrology", "Gastroenterology", "Neuro-Anaesthesiology and Critical Care", "Medicine and Microbiology", "Neurology", "Onco-Anesthesiology and Palliative Medicine"],
+    BDS: [],
+    BAMS: [],
+    BHMS: [],
+    BUMS: [],
+  };
+  
+  // Function to show degree types
+  (function () {
+  
+    const degreeTypeContainer = document.getElementById("degree");
+    
+    degreeTypeContainer.innerHTML="";
+  
+    for (let degreeType in degreeTypes) {
+      const option = document.createElement("option");
+      option.innerText = degreeType;
+      degreeTypeContainer.appendChild(option);
+    }
+  
+    degreeTypeContainer.selectedIndex = 4;
+  })();
+  
+  const loadSpecializations = (event) => {
+    const degree = event.target.value;
+    const specializationContainer = document.getElementById("specialization");
+    
+    specializationContainer.innerHTML="";
+    const option = document.createElement("option");
+    option.innerText = "None";
+    specializationContainer.appendChild(option);
+    
+    degreeTypes[degree].forEach((specialization)=>{
+      const option = document.createElement("option");
+      option.innerText = specialization;
+      specializationContainer.appendChild(option);
+  
+      specializationContainer.selectedIndex = 0;
+      // specializationContainer.options[specializationContainer.selectedIndex].defaultSelected = true;
+    });
+  }
+
+</script>
+
+
+<!-- axios fetch -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<!-- script  -->
+<script>
+
+    let btn = document.getElementById('submit');
+    btn.addEventListener("click",async function (e) {
+
+    e.preventDefault();
+
+
+  let clinicId = document.getElementById("clinic-id").value;
+  let firstName = document.getElementById("fname").value;
+  let lastName = document.getElementById("lname").value;
+  let email = document.getElementById("email").value;
+  let charges= document.getElementById("charge").value;
+  let password = document.getElementById("password").value;
+  let cpassword = document.getElementById("confirmPassword").value;
+  let contact = document.getElementById("contact-no").value;
+  let alternate_contact = document.getElementById("altContact-no").value;
+
+
+    var e = document.getElementById("degree");
+    // console.log(e);
+    var degree = e.options[e.selectedIndex].value;
+    // console.log(degree);
+    // console.log(username);
+
+    var e = document.getElementById("specialization");
+    // console.log(e);
+    var special = e.options[e.selectedIndex].value;
+    // console.log(strSpecialization);
+    // console.log(username);
+
+// console.log(fi,lastname,email,password);
+
+        if (firstName == '' || email == '' || password == ''
+            || cpassword == '') {
+            alert('Fill all details');
+        }
+        else if (password != cpassword) {
+            alert('confirm-password not matching')
+        }
+        else {
+            if (String(email).toLowerCase().match(/^\S+@\S+\.\S+$/)) {
+                let resp = await axios.post('/registerDoctor', {
+                    clinicId,firstName,lastName,email,charges,password,contact,alternate_contact,
+                    degree,special
+                });
+
+                console.log(resp);
+                if (resp.data == 'done'){
+                    alert('User created');
+                }
+                else {
+                    alert('try another email');
+                }
+            }
+            else {
+                alert('Enter valid email address');
+            }
+        }
+
+});
+
+</script>

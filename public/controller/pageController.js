@@ -4,6 +4,7 @@ const clinicModel = require('../models/clinicModel.js');
 const NodeGeocoder = require('node-geocoder');
 // import fetch from 'node-fetch';
 const fetch = require('node-fetch');
+const jwt = require('jsonwebtoken');
 
 const options = {
     provider : 'opencage',
@@ -50,60 +51,65 @@ module.exports.patientHome = function patientHome(req, res){
 module.exports.registerClinic = async function registerClinic(req , res){
     let nextId = await clinicModel.countDocuments() + 1;
     // console.log(nextId);
-    const resp = await geocoder.geocode({
-        address : req.body.address,
-        countrycode : "in"
-        // city : req.body.city
-    });
-    let location = resp[0];
-    let newClinic = await clinicModel.create({
-        id : nextId,
-        name : req.body.name,
-        email : req.body.email,
-        contact : req.body.contact,
-        alternate_contact : req.body.alternate_contact,
-        address : req.body.address,
-        pin : req.body.zipcode,
-        city : req.body.city,
-        lat : location.latitude,
-        long : location.longitude,
-        state : location.state
-    });
-    // console.log(newClinic);
-    // console.log(location);
-    return res.json({
-        data : newClinic
-    });
+    try{ 
+        const resp = await geocoder.geocode({
+            address : req.body.address,
+            countrycode : "in"
+            // city : req.body.city
+        });
+        let location = resp[0];
+        let newClinic = await clinicModel.create({
+            id : nextId,
+            name : req.body.name,
+            email : req.body.email,
+            contact : req.body.contact,
+            alternate_contact : req.body.alternate_contact,
+            address : req.body.address,
+            pin : req.body.zipcode,
+            city : req.body.city,
+            lat : location.latitude,
+            long : location.longitude,
+            state : location.state
+        });
+        // console.log(newClinic);
+        return res.send("done");
+        }
+    catch(err){
+        return res.send(err);
+    }
 }
 
 module.exports.registerDoctor = async function registerDoctor(req, res){
 
-    let hisClinic = await clinicModel.findOne({
-        id : req.body.clinicId
-    });
-    let hisUtil = Math.floor(Math.random() * (100));
-    let newDoc = await doctorModel.create({
-        clinicId : req.body.clinicId,
-        firstName : req.body.firstName,
-        lastName : req.body.lastName,
-        password : req.body.password,
-        email : req.body.email,
-        contact : req.body.contact,
-        alternate_contact : req.body.alternate_contact,
-        state : hisClinic.state,
-        city : hisClinic.city,
-        lat : hisClinic.lat,
-        long : hisClinic.long,
-        charges : req.body.charges,
-        degree : req.body.degree,
-        special : req.body.special,
-        pin : hisClinic.pin,
-        util : hisUtil
-    });
-    console.log(newDoc);
-    return res.render('index.ejs', {
-        name : "Doctor Registered"
-    });
+    try{ 
+        let hisClinic = await clinicModel.findOne({
+            id : req.body.clinicId
+        });
+        let hisUtil = Math.floor(Math.random() * (100));
+        let newDoc = await doctorModel.create({
+            clinicId : req.body.clinicId,
+            firstName : req.body.firstName,
+            lastName : req.body.lastName,
+            password : req.body.password,
+            email : req.body.email,
+            contact : req.body.contact,
+            alternate_contact : req.body.alternate_contact,
+            state : hisClinic.state,
+            city : hisClinic.city,
+            lat : hisClinic.lat,
+            long : hisClinic.long,
+            charges : req.body.charges,
+            degree : req.body.degree,
+            special : req.body.special,
+            pin : hisClinic.pin,
+            util : hisUtil
+        });
+        // console.log(newDoc);
+        return res.send('done');
+    }
+    catch(err){
+        return res.send("ERR");
+    }
 };
 
 module.exports.registerPatient = async function registerPatient(req, res){
@@ -112,34 +118,39 @@ module.exports.registerPatient = async function registerPatient(req, res){
         address : req.body.address,
         countrycode : "in"
     });
-    let location = resp[0];
-    let newUser = await patientModel.create({
-        patientId : nextId,
-        firstName : req.body.firstName,
-        lastName : req.body.lastName,
-        marital : req.body.marital,
-        race : req.body.race,
-        ethnicity : req.body.ethnicity,
-        gender : req.body.gender,
-        pasasword : req.body.password,
-        email : req.body.email,
-        contact : req.body.contact,
-        alternate_contact : req.body.alternate_contact,
-        address : req.body.address,
-        pin : req.body.zipcode,
-        city : req.body.city,
-        lat : location.latitude,
-        long : location.longitude,
-        state : location.state,
-        country : req.body.country
-    });
-    // console.log(newClinic);
-    // console.log(location);
-    return res.json({
-        data : newUser
-    });
+    try{ 
+        let location = resp[0];
+        let newUser = await patientModel.create({
+            patientId : nextId,
+            firstName : req.body.firstName,
+            lastName : req.body.lastName,
+            marital : req.body.marital,
+            race : req.body.race,
+            ethnicity : req.body.ethnicity,
+            gender : req.body.gender,
+            age : req.body.age,
+            password : req.body.password,
+            email : req.body.email,
+            contact : req.body.contact,
+            alternate_contact : req.body.alternate_contact,
+            address : req.body.address,
+            pin : location.zipcode,
+            city : req.body.city,
+            lat : location.latitude,
+            long : location.longitude,
+            state : location.state,
+            country : location.country
+        });
+        // console.log(newClinic);
+        // console.log(location);
+        console.log(newUser);
+        return res.send("done");
+    }catch(err){
+        return res.send(err);
+    }
 
 }
+
 function distance(lat1, lon1, lat2, lon2) {
     var R = 6371; // Radius of the earth in km
     var dLat = deg2rad(lat2-lat1);  // deg2rad below
@@ -268,6 +279,44 @@ module.exports.getChemists = async function getChemists(req, res){
         stores : data
     });
 };
+
+module.exports.login = async function login(req, res){
+
+    try{
+        if (req.body.strUserType == 'Doctor'){
+            let currDoc = await doctorModel.findOne({
+                email : req.body.email,
+                password : req.body.password
+            });
+            if (currDoc){
+
+            }
+            else return res.send('Invalid Credentials');
+        }
+        else {
+            let currUser = await patientModel.findOne({
+                email : req.body.email,
+                password : req.body.password
+            });
+            if (currUser){
+                let uid = currUser['id'];
+                let token  = jwt.sign({payload:uid} , JWT_KEY);
+                res.cookie('login' , token, {httpOnly:true});
+                res.cookie('patientId', currUser.patientId , {httpOnly : true});
+                res.cookie('userType', 'Patient', {httpOnly : true});
+                return res.send('loggedin');
+            }
+            else {
+                return res.send("Invalid Credentials")
+            }
+
+        }
+    }
+    catch(err){
+        return res.send(err);
+    }
+}
+
 
 
 
