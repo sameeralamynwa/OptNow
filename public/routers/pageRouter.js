@@ -1,13 +1,14 @@
 const express = require('express');
 const pageRouter = express.Router();
 
-const {getHome, loginPage,registerPagePatient , registerPageDoctor , registerPageClinic, patientHome, registerClinic, registerDoctor, getDocs, selectDoctor, bookDoctor} = require ('../controller/pageController');
+const {getHome, loginPage,registerPagePatient , registerPageDoctor , registerPageClinic, patientHome, registerPatient, registerClinic, registerDoctor, getDocs, selectDoctor, bookDoctor, showPrescriptions, getChemists} = require ('../controller/pageController');
 
 pageRouter.route('/login')
 .get(loginPage);
 
 pageRouter.route('/registerPatient')
-.get(registerPagePatient);
+.get(registerPagePatient)
+.post(registerPatient);
 
 pageRouter.route('/registerDoctor')
 .get(registerPageDoctor)
@@ -29,6 +30,9 @@ pageRouter.route('/bookDoctor')
 
 pageRouter.route('/viewPrescriptions')
 .get(showPrescriptions)
+
+pageRouter.route('/viewStores')
+.get(getChemists);
 
 pageRouter.route('/')
 .get(getHome);
