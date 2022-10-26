@@ -22,7 +22,7 @@ const patientSchema = new mongoose.Schema({
         type: String
     },
     marital : {
-        type : Boolean
+        type : String
     },
     race : {
         type : String

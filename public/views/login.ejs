@@ -15,10 +15,10 @@
         <select class="form-control" id="userType">
           <option value="" selected>Patient</option>
           <option value="">Doctor</option>
-          <option value="">Vendor</option>
+          <!-- <option value="">Vendor</option> -->
         </select>
       </div>
-      <input type="text" name="user" id="user" placeholder="Username" required>
+      <input type="text" name="email" id="email" placeholder="Email" required>
       <input type="password" name="password" id="password" placeholder="Password" required>
       <button id="submit">Submit</button>
     </form>
@@ -46,7 +46,7 @@
   btnLog.addEventListener('click', async function (e) {
     // here username is the firstName in DB
     e.preventDefault();
-    let username = document.getElementById('user').value;
+    let email = document.getElementById('email').value;
     let password = document.getElementById('password').value;
     // console.log(username);
     var x = document.getElementById("userType");
@@ -54,7 +54,7 @@
     var strUserType = x.options[x.selectedIndex].value;
     // console.log(strUser);
     // console.log(username);
-    let resp = await axios.post('/login', { username, password, strUserType });
+    let resp = await axios.post('/login', { email, password, strUserType });
     console.log('resp->', resp);
     //TODO
     if (resp.data != 'user Logged In successfully') {

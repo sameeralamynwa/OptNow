@@ -1,10 +1,11 @@
 const express = require('express');
 const pageRouter = express.Router();
 
-const {getHome, loginPage,registerPagePatient , registerPageDoctor , registerPageClinic, patientHome, registerPatient, registerClinic, registerDoctor, getDocs, selectDoctor, bookDoctor, showPrescriptions, getChemists} = require ('../controller/pageController');
+const {getHome, loginPage,registerPagePatient , registerPageDoctor , registerPageClinic, patientHome, registerPatient, registerClinic, registerDoctor, getDocs, selectDoctor, bookDoctor, showPrescriptions, getChemists, login} = require ('../controller/pageController');
 
 pageRouter.route('/login')
-.get(loginPage);
+.get(loginPage)
+.post(login);
 
 pageRouter.route('/registerPatient')
 .get(registerPagePatient)

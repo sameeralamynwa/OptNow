@@ -39,7 +39,7 @@
 <!--Form Starting-->
 
 
-<form class="row g-3 needs-validation" oninput="mySignupValidator()" action="/auth/registerPractice" method="POST" novalidate>
+<form class="row g-3 needs-validation" >
     
     <div class="col-md-6">
       <label for="name" class="form-label">Clinic name</label>
@@ -129,3 +129,59 @@
 </div>
 </div>
 </div>
+
+
+
+<!-- axios fetch -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<!-- script  -->
+<script>
+
+    let btn = document.getElementById('submit');
+      btn.addEventListener("click", async function (e) {
+
+        e.preventDefault();
+
+
+        let name = document.getElementById("name").value;
+        let email = document.getElementById("email").value;
+        let contact = document.getElementById("contact").value;
+        let alternate_contact = document.getElementById("alt-contact-no").value;
+        let address = document.getElementById("address").value;
+        let zipcode = document.getElementById("zip").value;
+
+
+        var e = document.getElementById("city");
+        // console.log(e);
+        var city = e.options[e.selectedIndex].value;
+        // console.log(city);
+        // console.log(username);
+
+        // console.log(clinicName,email,zip);
+
+        if (name == '' || email == '' || contact == ''
+          || address == '') {
+          alert('Fill all details');
+        }
+        else {
+          if (String(email).toLowerCase().match(/^\S+@\S+\.\S+$/)) {
+            let resp = await axios.post('/registerClinic', {
+              name, email, contact, alternate_contact,
+              address, zipcode, city
+            });
+
+            console.log(resp);
+            if (resp.data == 'done') {
+              alert('Clinic Registered')
+            }
+            else alert('Try Again');
+          }
+          else {
+            alert('Enter valid email address');
+          }
+        }
+
+      });
+
+</script>
