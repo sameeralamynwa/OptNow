@@ -148,4 +148,4 @@ def predict_allergies():
 
 
 if __name__ == "__main__":
-    app.run(port=int(os.getenv('PORT', 4444)), debug=True)
+    app.run(debug=True)
