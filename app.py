@@ -76,10 +76,11 @@ def predict_conditions():
     for i in descriptions_columns:
         int_features.append(conditions_description_split.count(i))
     
-    print(len(int_features))
+    print("int_features size" + len(int_features))
     
     tot_features = patient_features + descriptions_columns
-    print(len(tot_features))
+    print("tot_feat")
+    print(tot_features)
     final_features = [np.array(int_features)]
     df_features = pd.DataFrame(final_features, columns = tot_features)
     
