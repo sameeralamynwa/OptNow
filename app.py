@@ -84,6 +84,7 @@ def predict_conditions():
     df_features = pd.DataFrame(final_features, columns = tot_features)
     
     prediction = conditions.predict(df_features)
+    print(prediction)
     output = prediction[0]
 
     return render_template('index.html', prediction_text='ENCOUNTER CLASS IS {}'.format(output))
