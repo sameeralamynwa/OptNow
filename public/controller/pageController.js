@@ -238,13 +238,18 @@ module.exports.getDocs = async function getDocs(req, res){
     // console.log(allClinics[0].lat, allClinics[0].long, currUser.lat, currUser.long);
     // console.log(allClinics[1].distance);
     // console.log(allClinics[1].address, currUser.address);
-    console.log(allClinics[0]);
+    // console.log(allClinics[0]);
     let colors = [];
     for (var i = 0; i < allClinics.length; ++i){
         if (i % 2)
             colors.push("green");
         else colors.push("");
+        allClinics[i].rating = (Math.floor(
+            Math.random() * 3 + 3
+          )); 
+        //   console.log(allClinics[i].rating);
     }
+    
     return res.render('allDocs.ejs', {
         name : "Choose your doctor",
         special : req.params.sp,
@@ -266,7 +271,7 @@ module.exports.selectDoctor = async function selectDoctor(req, res){
     let currClinic = await clinicModel.find({
         id : currDoc.clinicId
     });
-
+    console.log(req.body.docId);
     // res.cookie.doc = currDoc;
     // return res.render('bookDoctor.ejs', {
     //     name : 'Book Doctor',  
@@ -387,11 +392,18 @@ module.exports.getChemists = async function getChemists(req, res){
         });
     }
     // console.log(stores[0]);
-    // let firstName = req.cookies.firstName;
-    // let userType = req.cookies.userType;
+    let firstName = req.cookies.firstName;
+    let userType = req.cookies.userType;
     // firstName : firstName,
     // userType : userType
-    return res.json(stores);
+    // return res.json(stores);
+    return res.render('viewStores.ejs', {
+        firstName : firstName,
+        userType : userType,
+        name : "View Medical Records",
+        userType : "Patient",
+        stores : stores
+    });
 };
 
 module.exports.login = async function login(req, res){

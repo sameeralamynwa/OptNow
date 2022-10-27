@@ -203,6 +203,15 @@
 }
 .rating{
     color: white;
-    
+
 }
+
+.checked {
+    color: orange;
+  }
+
+  button{
+    cursor: pointer;
+    
+  }
 
