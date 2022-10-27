@@ -68,7 +68,7 @@ input{
 }
 #submit{
   color: white;
-  background-color: black;
+  background-color: #030629;
 
 }
 .login-div form input[type=submit]:active {
@@ -107,8 +107,13 @@ p{
 #submit:hover{ 
   border: none;
 
-  background-color: white;
-  color: black;
+  /* background-color: white; */
+  color: #FBC02D;
+  transition: 0.3s;
+}
+
+#forgot:hover{
+  color: #FBC02D;
   transition: 0.3s;
 }
 .type{
