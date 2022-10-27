@@ -140,6 +140,7 @@ def predict_allergies():
     tot_features = patient_features + descriptions_columns
     print(len(tot_features))
     final_features = [np.array(int_features)]
+    print(tot_features)
     df_features = pd.DataFrame(final_features, columns = tot_features)
     
     prediction = allergies.predict(df_features)
