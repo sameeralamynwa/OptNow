@@ -20,7 +20,7 @@
                     <span>Specialization : <b><%= clinics[i].doc.special%></b></span>
                 </div>
                 <div class="coords">
-                    <span>Degree : <b><%= clinics[i].doc.degree %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></span>
+                    <span>Degree : <b><%= clinics[i].doc.degree %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></span>
                     <!-- <br> -->
                     <span>Charges : <b>&#8377;<%= clinics[i].doc.charges %> </b></span>
                 </div>
@@ -47,16 +47,17 @@
                     </div>
                 </div> -->
                 <span class="rating">
-                    Average Rating :
+                     Rating :
                 </span>
                 <div class="stars">
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star"></span>
-                    <span class="fa fa-star"></span>
+                    <% for( let j = 0; j < clinics[i].rating; j++ ) { %>
+                        <span class="fa fa-star checked"></span>
+                    <% } %>     
+                    <% for( let j = clinics[i].rating; j < 5; j++ ) { %>
+                        <span class="fa fa-star"></span>
+                    <% } %>
                 </div>
-                <button id="bookDoctor" name="<%=clinics[i].doc._id%>">Book an appointment</button>
+                <button onclick = "call(this)" name="<%=clinics[i].doc._id%>">Book an appointment</button>
             </div>
         </div>
         <div class="general">
@@ -78,12 +79,17 @@
 
 <link rel="stylesheet" href="../css/layout.css">
 <link rel="stylesheet" href="../css/allDocs.css">
-
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-    let x = document.getElementById('bookDoctor');
-    x.addEventListener('click', async function (e){
-        e.preventDefault();
-        console.log(x.name);
-
-    })
+    async function call(element){ 
+        // console.log(x.name);
+        let docId = element.name;
+        let sp = window.location.pathname.toString();
+        sp = sp.substring(5);
+        // console.log(sp);
+        let resp = await axios.post(`/apt/${sp}`, {
+            docId : docId
+        });
+        console.log(resp);
+    }
 </script>

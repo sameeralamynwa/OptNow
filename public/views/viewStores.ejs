@@ -1,0 +1,37 @@
+
+ <link rel="stylesheet" href="css/viewStores.css">
+ 
+ <!-- <link rel="stylesheet/less" type="text/css" href="viewStores.css" /> -->
+<!-- <script src="less.js" type="text/javascript"></script> -->
+
+
+
+<h1>Stores Near Me</h1>
+<!-- <h2><%=stores[0].address%></h2> -->
+<div class="card-container">
+
+<% for(var i=0 ; i < stores.length ; i++) {%>
+
+    
+  <div class="card">
+    <div class="card-count-container">
+      <div class="card-count"><%=(i+1)%></div>
+    </div>
+    
+    <div class="card-content">
+      <h2><%=stores[i].name%></h2>
+      <hr>
+      <b> Address - </b><%=stores[i].address%>
+      , <%=stores[i].state%>
+      <!-- <hr>
+      <b>Pincode - </b> <%=stores[i].pincode%> -->
+    </div>
+    
+    <div class="card-footer">
+        <b>Pincode - </b> <%=stores[i].pincode%>
+        <b>,   Distance - </b><%=stores[i].distance%> meter
+    </div>
+  </div>
+  
+<% } %>
+</div>
