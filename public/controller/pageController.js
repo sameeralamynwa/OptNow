@@ -220,23 +220,38 @@ module.exports.getDocs = async function getDocs(req, res){
             id : allDocs[i].clinicId
         });
         currClinic.doc = allDocs[i];
+        let dist = distance(currClinic.lat, currClinic.long, currUser.lat, currUser.long);
+        dist = dist.toString().substring(0, 4);
+        // console.log(dist);
+        currClinic.dist = dist;
         // console.log(currClinic);
-        allClinics.push(currClinic)
+        allClinics.push(currClinic);
     }
     // console.log(allClinics);
     allClinics.sort((a, b) =>
     distance(a.lat, a.long, currUser.lat, currUser.long) -
     distance(b.lat, b.long, currUser.lat, currUser.long)
     );
+
     let firstName = req.cookies.firstName;
     let userType = req.cookies.userType;
-
-    return res.render('alldocs.ejs', {
+    // console.log(allClinics[0].lat, allClinics[0].long, currUser.lat, currUser.long);
+    // console.log(allClinics[1].distance);
+    // console.log(allClinics[1].address, currUser.address);
+    console.log(allClinics[0]);
+    let colors = [];
+    for (var i = 0; i < allClinics.length; ++i){
+        if (i % 2)
+            colors.push("green");
+        else colors.push("");
+    }
+    return res.render('allDocs.ejs', {
         name : "Choose your doctor",
         special : req.params.sp,
         clinics : allClinics,
         firstName : firstName,
-        userType : userType
+        userType : userType,
+        colors : colors
     });
     return res.json({
         // data : "done",

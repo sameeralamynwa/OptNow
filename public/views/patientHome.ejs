@@ -17,7 +17,7 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                    <select class="form-control" id="userType">
+                    <select class="form-control" id="special">
                         <option value="" selected>Family Medicine</option>
                         <option value="">Internal Medicine</option>
                         <option value="">Pediatrician</option>
@@ -80,5 +80,14 @@
   stores.addEventListener('click', function(e){
     document.location.href = "/viewStores";
   });
+
+  let searchDoctor = document.getElementById('searchDoctor');
+  searchDoctor.addEventListener('click', async function(e){
+    e.preventDefault();
+    let special = document.getElementById('special');
+    let sp = special.options[special.selectedIndex].text;
+    console.log(sp);
+    document.location.href = `/apt/${sp}`
+  })
 </script>
 
