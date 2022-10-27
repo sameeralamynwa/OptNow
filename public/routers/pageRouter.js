@@ -1,7 +1,7 @@
 const express = require('express');
 const pageRouter = express.Router();
 
-const {getHome, loginPage,registerPagePatient , registerPageDoctor , registerPageClinic, patientHome, registerPatient, registerClinic, registerDoctor, getDocs, selectDoctor, bookDoctor, showPrescriptions, getChemists, login} = require ('../controller/pageController');
+const {getHome, loginPage,registerPagePatient , registerPageDoctor , registerPageClinic, patientHome, registerPatient, registerClinic, registerDoctor, getDocs, selectDoctor, bookDoctor, showPrescriptions, getChemists, login, logout, authPatient} = require ('../controller/pageController');
 
 pageRouter.route('/login')
 .get(loginPage)
@@ -20,22 +20,27 @@ pageRouter.route('/registerClinic')
 .post(registerClinic);
 
 pageRouter.route('/patientHome')
-.get(patientHome);
+.get(authPatient, patientHome);
 
 pageRouter.route('/apt/:sp')
-.get(getDocs)
+.get(authPatient, getDocs)
 .post(selectDoctor);
 
 pageRouter.route('/bookDoctor')
 .post(bookDoctor)
 
 pageRouter.route('/viewPrescriptions')
-.get(showPrescriptions)
+.get(authPatient, showPrescriptions)
 
 pageRouter.route('/viewStores')
-.get(getChemists);
+.get(authPatient, getChemists);
+
+pageRouter.route('/logout')
+.get(logout);
 
 pageRouter.route('/')
 .get(getHome);
+
+
 
 module.exports = pageRouter;

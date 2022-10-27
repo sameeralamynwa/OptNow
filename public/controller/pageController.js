@@ -5,6 +5,7 @@ const NodeGeocoder = require('node-geocoder');
 // import fetch from 'node-fetch';
 const fetch = require('node-fetch');
 const jwt = require('jsonwebtoken');
+const JWT_KEY = 'mykey123';
 
 const options = {
     provider : 'opencage',
@@ -18,9 +19,16 @@ module.exports.getHome = function getHome(req, res) {
     });
 }
 module.exports.loginPage = function loginPage(req, res){
-    return res.render('login.ejs', {
-        name : "Login"
-    });
+    if (req.cookies.login){
+        if (req.cookies.userType == 'Doctor')
+            return res.redirect('/doctorHome');
+        else return res.redirect('/patientHome');
+    }
+    else { 
+        return res.render('login.ejs', {
+            name : "Login"
+        });
+    } 
 }
 
 module.exports.registerPagePatient = function registerPagePatient(req, res){
@@ -171,8 +179,8 @@ function deg2rad(deg) {
 module.exports.getDocs = async function getDocs(req, res){
 
     let currUser = await patientModel.findOne({
-        // patientId : req.cookies.patientId,
-        patientId : "1"
+        patientId : req.cookies.patientId,
+        // patientId : "1"
         ////////////////////////////////////
     });
     let allDocs = await doctorModel.find({
@@ -268,16 +276,29 @@ module.exports.showPrescriptions = async function showPrescriptions(req, res){
 
 module.exports.getChemists = async function getChemists(req, res){
     let currUser = await patientModel.findOne({
-        // patientId : req.cookies.patientId
-        patientId : "1"
+        patientId : req.cookies.patientId
+        // patientId : "1"
     });
-    console.log(currUser);
+    // console.log(currUser);
     const response = await fetch(`https://api.geoapify.com/v2/places?categories=healthcare.pharmacy,commercial.chemist,healthcare.hospital,healthcare.clinic_or_praxis,commercial.health_and_beauty,healthcare,building.healthcare&bias=proximity:${currUser.long},${currUser.lat}&limit=7&apiKey=c1c4dcb32cc54e2cb89efac279fbb99c`);
     const data = await response.json();
-    return res.render('viewStores.ejs', {
-        name : "View Stores",
-        stores : data
-    });
+    // return res.render('viewStores.ejs', {
+    //     name : "View Stores",
+    //     stores : data
+    // });
+    // console.log(data.features[0]);
+    let stores = [];
+    for(var i = 0; i < data.features.length; ++i){
+        stores.push({
+            name : data.features[i].properties.name,
+            address : data.features[i].properties.street,
+            state : data.features[i].properties.state,
+            pincode : data.features[i].properties.postcode,
+            distance : data.features[i].properties.distance
+        });
+    }
+    // console.log(stores[0]);
+    return res.json(stores);
 };
 
 module.exports.login = async function login(req, res){
@@ -289,9 +310,16 @@ module.exports.login = async function login(req, res){
                 password : req.body.password
             });
             if (currDoc){
-
+                let uid = currDoc['id'];
+                let token  = jwt.sign({payload:uid} , JWT_KEY);
+                res.cookie('login' , token, {httpOnly:true});
+                // res.cookie('patientId', currUser.patientId , {httpOnly : true});
+                res.cookie('userType', 'Doctor', {httpOnly : true});
+                return res.send('loggedin');
             }
-            else return res.send('Invalid Credentials');
+            else {
+                return res.send("Invalid Credentials")
+            }
         }
         else {
             let currUser = await patientModel.findOne({
@@ -316,6 +344,37 @@ module.exports.login = async function login(req, res){
         return res.send(err);
     }
 }
+
+module.exports.logout = async function logout(req, res){
+
+    res.cookie('patientId' , '' , {maxAge:1});
+    res.cookie('userType' , '' , {maxAge:1});
+    res.cookie('login' , '' , {maxAge:1});
+    return res.redirect('/');
+}
+
+module.exports.authPatient = async function authPatient(req, res, next){
+    
+    if (req.cookies.login){
+        if (req.cookies.userType == 'Patient'){
+            let currPayload = jwt.verify(req.cookies.login , JWT_KEY).payload;
+            let currUser = await patientModel.findById(currPayload);
+            if (currUser.patientId == req.cookies.patientId)
+                next();
+            else {
+                return res.json("TRY AGAIN");
+            }
+        }
+        else {
+            return res.json("ACCESS DENIED, LOGIN AS PATIENT");
+        }
+
+    }
+    else {
+        return res.json("ACCESS DENIED, LOGIN");
+    }
+}
+
 
 
 

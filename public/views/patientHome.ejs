@@ -4,7 +4,7 @@
 <div class="svs d-flex flex-row justify-content-center align-items-center flex-wrap">
     <div class="service d-flex flex-column ">
         <img src="/img/aptmnt.jpg" alt="alt text">
-        <button type="button" data-toggle="modal" data-target="#exampleModal">
+        <button type="button" data-toggle="modal" data-target="#exampleModal" id="book">
             Book an appointment
         </button>
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -49,22 +49,36 @@
     </div>
     <div class="service d-flex flex-column ">
         <img src="/img/pres.webp" alt="alt text">
-        <button type="button" data-toggle="modal" data-target="#exampleModal">
+        <button type="button" id="pres">
             Check your prescriptions
         </button>
     </div>
     <div class="service d-flex flex-column ">
         <img src="/img/store.jpg" alt="alt text">
-        <button type="button" data-toggle="modal" data-target="#exampleModal">
+        <button type="button" id="stores">
             Check nearby stores
         </button>
     </div>
     <div class="service d-flex flex-column ">
         <img src="/img/rehos.jpg" alt="alt text">
-        <button type="button" data-toggle="modal" data-target="#exampleModal">
-            Check model scores
+        <button id="risk">
+            Check your risk
         </button>
     </div>
     
 
 </div>
+
+<script>
+
+  let pres = document.getElementById('pres');
+  pres.addEventListener('click', function(e){
+    document.location.href = "/viewPrescriptions";
+  });
+
+  let stores = document.getElementById('stores');
+  stores.addEventListener('click', function(e){
+    document.location.href = "/viewStores";
+  });
+</script>
+
