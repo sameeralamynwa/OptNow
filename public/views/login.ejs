@@ -50,20 +50,23 @@
     let password = document.getElementById('password').value;
     // console.log(username);
     var x = document.getElementById("userType");
-    console.log(x);
-    var strUserType = x.options[x.selectedIndex].value;
+    var value = x.value;
+    var strUserType = x.options[x.selectedIndex].text;
+    console.log(strUserType);
     // console.log(strUser);
     // console.log(username);
     let resp = await axios.post('/login', { email, password, strUserType });
-    console.log('resp->', resp);
-    //TODO
-    if (resp.data != 'user Logged In successfully') {
-      let msg = resp.data;
-      alert(msg);
-    }
-    else {
-      alert('user Logged In successfully');
-      window.location = '/';
+    // console.log(resp);
+
+    if (resp.data == 'loggedin'){
+      alert(`${strUserType} logged in`);
+      if (strUserType == 'Patient')
+        document.location.href = "/patientHome";
+      else 
+        document.location.href = "/doctorHome";
+    } else {
+      alert('Try Again');
+      document.location.href = "/login"
     }
   });
 </script>
