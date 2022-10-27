@@ -310,9 +310,39 @@ module.exports.showPrescriptions = async function showPrescriptions(req, res){
     });
     let firstName = req.cookies.firstName;
     let userType = req.cookies.userType;
+
+    let dosage = ["dosage1" , "dosage2" , "dosage3"];
+    let Medical_tests_recommended = ["mtest1" ,"mtest2" ,"mtest3"];
+    let Medical_procedure_followed=["mprocedure1" ,"mprocedure2" ,"mprocedure3"];
+    let final_record = [{
+        dr_name : "Manish",
+        special : "Pharmacology", // take this from doctor register page (req.body.special)
+        hospital : "goverment Hospital",
+        add: "sadar bazar Makrana",
+        major_disease: "fever",
+        date_from : "20 Nov 2020",
+        date_to :"25 NOv 2020",
+        dosage: dosage,
+        mtr : Medical_tests_recommended,
+        mpf : Medical_procedure_followed
+    },
+    {
+        dr_name : "saad",
+        special : "Orthopaedics",
+        hospital : "private Hospital",
+        add: "sadar bazar Makrana",
+        major_disease: "cold",
+        date_from : "20 Nov 2021",
+        date_to :"30 NOv 2021",
+        dosage: dosage,
+        mtr : Medical_tests_recommended,
+        mpf : Medical_procedure_followed
+    }];
+
     return res.render('viewPrescriptions.ejs', {
-        name : "View Prescriptions",
-        records : currUser.records,
+        name : "Show Medical Records",
+        // records : currUser.records,
+        records : final_record,
         firstName : firstName,
         userType : userType
     });
