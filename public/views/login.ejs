@@ -52,7 +52,7 @@
     var x = document.getElementById("userType");
     var value = x.value;
     var strUserType = x.options[x.selectedIndex].text;
-    console.log(strUserType);
+    // console.log(strUserType);
     // console.log(strUser);
     // console.log(username);
     let resp = await axios.post('/login', { email, password, strUserType });

@@ -1,0 +1,89 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="center">
+    <% for( let i = 0; i < clinics.length; i++ ) { %>
+    <div class="card <%=colors[i]%> ">
+        <div class="additional">
+            <div class="user-card">
+                <div class="level center">
+                    Utilisation : <%= clinics[i].doc.util %> 
+                </div>
+                <div class="points center">
+                    Distance : <%= clinics[i].dist %> km 
+                </div>
+                <img src="/../img/doc.png" alt="cant load">
+            </div>
+            <div class="more-info">
+                <h1>Dr. <%= clinics[0].doc.firstName %>
+                    <%= clinics[0].doc.lastName %></h1>
+                <div class="coords">
+                    <span>Patients Treated : <b><%= clinics[i].doc.util %> </b> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+                    <span>Specialization : <b><%= clinics[i].doc.special%></b></span>
+                </div>
+                <div class="coords">
+                    <span>Degree : <b><%= clinics[i].doc.degree %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></span>
+                    <!-- <br> -->
+                    <span>Charges : <b>&#8377;<%= clinics[i].doc.charges %> </b></span>
+                </div>
+                <!-- <div class="stats">
+                    <div>
+                        <div class="title">Awards</div>
+                        <i class="fa fa-trophy"></i>
+                        <div class="value">2</div>
+                    </div>
+                    <div>
+                        <div class="title">Matches</div>
+                        <i class="fa fa-gamepad"></i>
+                        <div class="value">27</div>
+                    </div>
+                    <div>
+                        <div class="title">Pals</div>
+                        <i class="fa fa-group"></i>
+                        <div class="value">123</div>
+                    </div>
+                    <div>
+                        <div class="title">Coffee</div>
+                        <i class="fa fa-coffee"></i>
+                        <div class="value infinity">∞</div>
+                    </div>
+                </div> -->
+                <span class="rating">
+                    Average Rating :
+                </span>
+                <div class="stars">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                </div>
+                <button id="bookDoctor" name="<%=clinics[i].doc._id%>">Book an appointment</button>
+            </div>
+        </div>
+        <div class="general">
+            <h1>
+                Dr. <%= clinics[0].doc.firstName %>
+                    <%= clinics[0].doc.lastName %>
+            </h1>
+            <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a volutpat mauris, at molestie lacus. Nam vestibulum sodales odio ut pulvinar.</p> -->
+            Clinic Name : <h5><%= clinics[i].name %> </h5>
+            <br>
+            Address : <h5><%= clinics[i].address %> </h5>  <br> 
+            City : <h5><%= clinics[i].doc.city %>, <%= clinics[i].doc.pin %> </h5> <br>
+
+            <span class="more">Hover over the card for more info</span>
+        </div>
+    </div>
+    <% } %>
+</div>
+
+<link rel="stylesheet" href="../css/layout.css">
+<link rel="stylesheet" href="../css/allDocs.css">
+
+<script>
+    let x = document.getElementById('bookDoctor');
+    x.addEventListener('click', async function (e){
+        e.preventDefault();
+        console.log(x.name);
+
+    })
+</script>
