@@ -14,10 +14,16 @@ const options = {
 const geocoder = NodeGeocoder(options);
 
 module.exports.getHome = function getHome(req, res) {
+
+    let firstName = req.cookies.firstName;
+    let userType = req.cookies.userType;
     return res.render('index.ejs', {
         name: "HomePage" ,
+        firstName : firstName,
+        userType : userType
     });
 }
+
 module.exports.loginPage = function loginPage(req, res){
     if (req.cookies.login){
         if (req.cookies.userType == 'Doctor')
@@ -26,33 +32,53 @@ module.exports.loginPage = function loginPage(req, res){
     }
     else { 
         return res.render('login.ejs', {
-            name : "Login"
+            name : "Login",
+            firstName : '',
+            userType : ''
         });
     } 
 }
 
 module.exports.registerPagePatient = function registerPagePatient(req, res){
+    let firstName = req.cookies.firstName;
+    let userType = req.cookies.userType;
+
     return res.render('registerPatient.ejs', {
-        name : "Register Patient"
+        name : "Register Patient",
+        firstName : firstName,
+        userType : userType
     });
 }
 
 module.exports.registerPageDoctor = function registerPageDoctor(req, res){
+    let firstName = req.cookies.firstName;
+    let userType = req.cookies.userType;
     return res.render('registerDoctor.ejs', {
-        name : "Register Doctor"
+        name : "Register Doctor",
+        firstName : firstName,
+        userType : userType
     });
 }
 
 module.exports.registerPageClinic = function registerPageClinic(req, res){
+    let firstName = req.cookies.firstName;
+    let userType = req.cookies.userType;
     return res.render('registerClinic.ejs', {
-        name : "Register Clinic"
+        name : "Register Clinic",
+        firstName : firstName,
+        userType : userType
     });
 }
 
 module.exports.patientHome = function patientHome(req, res){
+    let firstName = req.cookies.firstName;
+    let userType = req.cookies.userType;
+
     return res.render('patientHome.ejs', {
         name : "User Profile",
-        username : "patient"
+        username : "patient",
+        firstName : firstName,
+        userType : userType
     })
 }
 
@@ -176,6 +202,7 @@ function distance(lat1, lon1, lat2, lon2) {
 function deg2rad(deg) {
     return deg * (Math.PI/180)
 }
+
 module.exports.getDocs = async function getDocs(req, res){
 
     let currUser = await patientModel.findOne({
@@ -201,6 +228,16 @@ module.exports.getDocs = async function getDocs(req, res){
     distance(a.lat, a.long, currUser.lat, currUser.long) -
     distance(b.lat, b.long, currUser.lat, currUser.long)
     );
+    let firstName = req.cookies.firstName;
+    let userType = req.cookies.userType;
+
+    return res.render('alldocs.ejs', {
+        name : "Choose your doctor",
+        special : req.params.sp,
+        clinics : allClinics,
+        firstName : firstName,
+        userType : userType
+    });
     return res.json({
         // data : "done",
         special : req.params.sp,
@@ -220,10 +257,14 @@ module.exports.selectDoctor = async function selectDoctor(req, res){
     //     name : 'Book Doctor',  
     //     doc : currDoc
     // });
+    let firstName = req.cookies.firstName;
+    let userType = req.cookies.userType;
     return res.render('bookapt.ejs', {
         name : 'Schedule APT',
         clinic : currClinic,
-        doc : currDoc
+        doc : currDoc,
+        firstName : firstName,
+        userType : userType
     });
 };
 
@@ -267,10 +308,13 @@ module.exports.showPrescriptions = async function showPrescriptions(req, res){
     let currUser = patientModel.findOne({
         id : req.cookies.patientId
     });
-
+    let firstName = req.cookies.firstName;
+    let userType = req.cookies.userType;
     return res.render('viewPrescriptions.ejs', {
         name : "View Prescriptions",
-        records : currUser.records
+        records : currUser.records,
+        firstName : firstName,
+        userType : userType
     });
 };
 
@@ -298,6 +342,10 @@ module.exports.getChemists = async function getChemists(req, res){
         });
     }
     // console.log(stores[0]);
+    // let firstName = req.cookies.firstName;
+    // let userType = req.cookies.userType;
+    // firstName : firstName,
+    // userType : userType
     return res.json(stores);
 };
 
@@ -315,6 +363,7 @@ module.exports.login = async function login(req, res){
                 res.cookie('login' , token, {httpOnly:true});
                 // res.cookie('patientId', currUser.patientId , {httpOnly : true});
                 res.cookie('userType', 'Doctor', {httpOnly : true});
+                res.cookie('firstName', currDoc.firstName, {httpOnly : true});
                 return res.send('loggedin');
             }
             else {
@@ -332,6 +381,7 @@ module.exports.login = async function login(req, res){
                 res.cookie('login' , token, {httpOnly:true});
                 res.cookie('patientId', currUser.patientId , {httpOnly : true});
                 res.cookie('userType', 'Patient', {httpOnly : true});
+                res.cookie('firstName', currUser.firstName, {httpOnly : true});
                 return res.send('loggedin');
             }
             else {
@@ -350,6 +400,7 @@ module.exports.logout = async function logout(req, res){
     res.cookie('patientId' , '' , {maxAge:1});
     res.cookie('userType' , '' , {maxAge:1});
     res.cookie('login' , '' , {maxAge:1});
+    res.cookie('firstName', '', {maxAge:1});
     return res.redirect('/');
 }
 
@@ -374,8 +425,6 @@ module.exports.authPatient = async function authPatient(req, res, next){
         return res.json("ACCESS DENIED, LOGIN");
     }
 }
-
-
 
 
 
