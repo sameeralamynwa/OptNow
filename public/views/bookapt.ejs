@@ -1,1 +1,182 @@
-THIS IS BOOKING
+<link rel="stylesheet" href="/../../css/layout.css">
+<link rel="stylesheet" href="../../css/bookapt.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css">
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<!-- bootstrap -->
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+
+<!-- datepicker styles -->
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css">
+
+<div class="section">
+    <div class="container">
+        <div class="row full-height justify-content-center">
+            <div class="col-12 text-center align-self-center py-5">
+                <div class="section pb-5 pt-5 pt-sm-2 text-center">
+                    <h6 class="mb-0 pb-3"><span>Book Appointment </span><span>Give Feedback</span></h6>
+                    <input class="checkbox" type="checkbox" id="reg-log" name="reg-log" />
+                    <label for="reg-log"></label>
+                    <div class="card-3d-wrap mx-auto">
+                        <div class="card-3d-wrapper">
+                            <div class="card-front">
+                                <div class="center-wrap">
+                                    <div class="section text-center">
+                                        <h4 class="mb-4 pb-3">SET APPOINTMENT DETAILS</h4>
+                                        <!-- <div class="form-group">
+                                            <input type="email" name="logemail" class="form-style"
+                                                placeholder="Your Email" id="logemail" autocomplete="off">
+                                            <i class="input-icon uil uil-at"></i>
+                                        </div> -->
+                                        <div class="form-group mt-2">
+                                            <input type="text" name="patientName" class="form-style"
+                                                placeholder="Enter Patient Name" id="name1" autocomplete="off">
+                                            <i class="input-icon uil uil-user"></i>
+                                        </div>
+                                        <div class="form-group mt-2">
+                                            <!-- <input type="text" class="form-style"> -->
+                                            <!-- <div class="form-group mb-4"> -->
+                                            <div class="datepicker date input-group">
+                                                <input type="text" placeholder="Select date for appointment"
+                                                    class="form-style" id="date">
+                                                <div class="input-group-append">
+                                                    <!-- <span class="input-group-text"><i
+                                                                class="fa fa-calendar"></i> -->
+                                                    <!-- </span> -->
+                                                </div>
+                                                <i class="input-icon uil uil-calender"></i>
+                                            </div>
+                                            <!-- </div> -->
+                                        </div>
+                                        <div class="form-group mt-2">
+                                            <input class="form-style" id="time" type="text"
+                                                placeholder="Enter time in 24hr format">
+                                            <i class="input-icon uil uil-clock"></i>
+                                        </div>
+                                        <div class="form-group mt-2">
+                                            <textarea class="form-style" name="description" id="description" cols="30"
+                                                rows="4"
+                                                placeholder="Tell us about your symptoms, allergies, illness and how you feel"></textarea>
+                                            <i class="input-icon uil uil-comment-message"></i>
+                                        </div>
+                                        <a href="#" id="book1" class="btn mt-4">BOOK</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-back">
+                                <div class="center-wrap">
+                                    <div class="section text-center">
+                                        <h4 class="mb-4 pb-3">SEND FEEDBACK TO DOCTOR</h4>
+                                        <div class="form-group">
+                                            <input type="text" name="logname" class="form-style"
+                                                placeholder="Enter Patient Name" autocomplete="off" id="name2">
+                                            <i class="input-icon uil uil-user"></i>
+                                        </div>
+                                        <div class="form-group mt-2">
+                                            <textarea class="form-style" name="description2" id="description2" cols="30"
+                                                rows="4"
+                                                placeholder="Tell us about your symptoms, allergies, illness and how you feel"></textarea>
+                                            <i class="input-icon uil uil-comment-message"></i>
+                                        </div>
+                                        <a href="#" id="book2" class="btn mt-4">SEND</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+
+<!-- Datepicker -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+
+<script>
+    $(function () {
+        $('.datepicker').datepicker({
+            language: "es",
+            autoclose: true,
+            format: "dd/mm/yyyy"
+        });
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+
+    let book1 = document.getElementById('book1');
+    book1.addEventListener('click', async function (e) {
+        e.preventDefault();
+        let doctorId = window.location.pathname.toString();
+        doctorId = doctorId.substring(6);
+        // console.log(doctorId);
+        let date = document.getElementById('date').value;
+        let time = document.getElementById('time').value;
+        let description = document.getElementById('description').value;
+        if (!date || !time || !description) {
+            alert('Enter complete details')
+        }
+        else {
+            // console.log(date, time, description);
+            let resp = await axios.post('/bookDoctor', {
+                doctorId: doctorId,
+                date: date,
+                time: time,
+                description: description,
+                type: "apt"
+            });
+            if (resp.data == 'RECEIVED') {
+                alert('APPOINTMENT BOOKED');
+                document.location.href = '../patientHome'
+            }
+            else alert('CHOOSE ANOTHER TIME SLOT');
+        }
+
+    })
+    let book2 = document.getElementById('book2');
+    book2.addEventListener('click', async function (e) {
+        e.preventDefault();
+        let doctorId = window.location.pathname.toString();
+        doctorId = doctorId.substring(6);
+        // console.log(doctorId);
+        let name = document.getElementById('name2');
+        let description = document.getElementById('description2').value;
+        if (!name || !description) {
+            alert('Enter complete details')
+        }
+        else {
+            // console.log(date, time, description);
+            let resp = await axios.post('/bookDoctor', {
+                doctorId: doctorId,
+                description: description,
+                type: "fb"
+            });
+            if (resp.data == 'RECEIVED'){
+                alert('FEEDBACK DELIVERED');
+                document.location.href = "../patientHome"
+            }
+            else alert("ERROR");
+        }
+
+    });
+
+</script>

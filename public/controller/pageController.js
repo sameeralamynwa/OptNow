@@ -75,8 +75,20 @@ module.exports.patientHome = function patientHome(req, res){
     let userType = req.cookies.userType;
 
     return res.render('patientHome.ejs', {
-        name : "User Profile",
-        username : "patient",
+        name : "Patient Profile",
+        username : req.cookies.firstName,
+        firstName : firstName,
+        userType : userType
+    })
+}
+
+module.exports.doctorHome = function doctorHome(req, res){
+    let firstName = req.cookies.firstName;
+    let userType = req.cookies.userType;
+
+    return res.render('doctorHome.ejs', {
+        name : "Doctor Profile",
+        username : req.cookies.firstName,
         firstName : firstName,
         userType : userType
     })
@@ -288,6 +300,23 @@ module.exports.selectDoctor = async function selectDoctor(req, res){
     });
 };
 
+module.exports.selectDetails = async function selectDetails(req, res){
+
+    let firstName = req.cookies.firstName;
+    let userType = req.cookies.userType;
+    let currDoc = await doctorModel.findById(req.params.docId);
+    let currClinic = await clinicModel.find({
+        id : currDoc.clinicId
+    });
+    return res.render('bookapt.ejs', {
+        name : 'Schedule APT',
+        clinic : currClinic,
+        doc : currDoc,
+        firstName : firstName,
+        userType : userType
+    });
+}
+
 module.exports.bookDoctor = async function bookDoctor(req, res){
 
     let currDoc = await doctorModel.findById(req.body.doctorId);
@@ -301,23 +330,20 @@ module.exports.bookDoctor = async function bookDoctor(req, res){
         }
     // console.log(currDoc)
     // console.log(canBook, currDoc.apts);
-    if (canBook == true){
+    if (req.body.type == 'fb' || canBook == true){
         currDoc.apts.push({
             date : req.body.date,
             time : req.body.time,
             patientId : req.cookies.patientId,
-            description : req.body.description
+            description : req.body.description,
+            type : req.body.type
         });
         let updated = await doctorModel.findByIdAndUpdate(req.body.doctorId, {apts : currDoc.apts});
         // console.log(updated.apts);
-        return res.send({
-            data : "APT BOOKED"
-        });
+        return res.send("RECEIVED");
     }
     else {
-        return res.send({
-            data : "CHOOSE ANOTHER SLOT"
-        });
+        return res.send("CHOOSE ANOTHER SLOT");
     }
     
 
@@ -418,6 +444,7 @@ module.exports.login = async function login(req, res){
                 let uid = currDoc['id'];
                 let token  = jwt.sign({payload:uid} , JWT_KEY);
                 res.cookie('login' , token, {httpOnly:true});
+                res.cookie('doctorId', currDoc['id'], {httpOnly:true});
                 // res.cookie('patientId', currUser.patientId , {httpOnly : true});
                 res.cookie('userType', 'Doctor', {httpOnly : true});
                 res.cookie('firstName', currDoc.firstName, {httpOnly : true});
@@ -450,7 +477,7 @@ module.exports.login = async function login(req, res){
     catch(err){
         return res.send(err);
     }
-}
+};
 
 module.exports.logout = async function logout(req, res){
 
@@ -458,8 +485,9 @@ module.exports.logout = async function logout(req, res){
     res.cookie('userType' , '' , {maxAge:1});
     res.cookie('login' , '' , {maxAge:1});
     res.cookie('firstName', '', {maxAge:1});
+    res.cookie('doctorId', '', {maxAge:1});
     return res.redirect('/');
-}
+};
 
 module.exports.authPatient = async function authPatient(req, res, next){
     
@@ -481,7 +509,99 @@ module.exports.authPatient = async function authPatient(req, res, next){
     else {
         return res.json("ACCESS DENIED, LOGIN");
     }
-}
+};
+
+module.exports.showFeedbacks = async function showFeedbacks(req, res) {
+ 
+    // let currDoc = await doctorModel.findOne({firstName:req.cookies.firstName});
+    let currDoc = await doctorModel.findById(req.cookies.doctorId);
+    let allapts = [];
+    for(let i = 0; i < currDoc.apts.length ; i++){
+        // currDoc.apts[i].patientName = "Manish"
+        // currDoc.apts[i].patientContact = "1234567890"
+        // currDoc.apts[i].patientEmail = "manish@gamil.com"
+        // currDoc.apts[i].patientId = "1"
+        // currDoc.apts[i].age = "21";
+        if (currDoc.apts[i].patientId && currDoc.apts[i].type == 'fb'){
+            let currUser = await patientModel.findOne({
+                patientId : currDoc.apts[i].patientId
+            });
+            // console.log(currUser);
+            currDoc.apts[i].patientName = currUser.firstName + " " +currUser.lastName;
+            currDoc.apts[i].patientContact = currUser.contact;
+            currDoc.apts[i].patientEmail = currUser.email;
+            currDoc.apts[i].age = currUser.age;
+            allapts.push(currDoc.apts[i]);
+        }
+    }
+ 
+    // console.log(currDoc);
+    let firstName = req.cookies.firstName;
+    let userType = req.cookies.userType;
+    return res.render('checkFeedbacks.ejs', {
+        name: "Acknowledge Patient Feedbacks " ,
+        firstName : firstName,
+        userType : userType,
+        apts: allapts
+    });
+};
+ 
+//TODO
+module.exports.showAppointments = async function showAppointments(req, res) {
+ 
+    let currDoc = await doctorModel.findById(req.cookies.doctorId);
+    let allapts = [];
+    for(let i = 0 ; i<currDoc.apts.length ; i++){
+        if (currDoc.apts[i].patientId && currDoc.apts[i].type != 'fb'){
+            let currUser = await patientModel.findOne({
+                patientId : currDoc.apts[i].patientId
+            });
+            // console.log(currUser);
+            currDoc.apts[i].patientName = currUser.firstName + " " +currUser.lastName;
+            currDoc.apts[i].patientContact = currUser.contact;
+            currDoc.apts[i].patientEmail = currUser.email;
+            currDoc.apts[i].age = currUser.age;
+            allapts.push(currDoc.apts[i]);
+        }
+    }
+    // console.log(allapts[0].patientId, allapts[])
+    let firstName = req.cookies.firstName;
+    let userType = req.cookies.userType;
+    return res.render('checkAppointments.ejs', {
+        name: "My Appointments" ,
+        firstName : firstName,
+        userType : userType,
+        apts: allapts
+    });
+};
+
+module.exports.authDoctor = async function authDoctor(req, res, next){
+    try{ 
+        if (req.cookies.login){
+            if (req.cookies.userType == 'Doctor'){
+                let currPayload = jwt.verify(req.cookies.login , JWT_KEY).payload;
+                // console.log(currPayload)
+                let currDoc = await doctorModel.findById(currPayload);
+                // console.log(currDoc);
+                if (currDoc['id'] == req.cookies.doctorId)
+                    next();
+                else {
+                    return res.json("TRY AGAIN");
+                }
+            }
+            else {
+                return res.json("ACCESS DENIED, LOGIN AS DOCTOR");
+            }
+
+        }
+        else {
+            return res.json("ACCESS DENIED, LOGIN");
+        }
+    }catch(err){
+        console.log(err);
+    }
+};
+
 
 
 
