@@ -1,0 +1,59 @@
+
+ <link rel="stylesheet" href="css/viewStores.css">
+
+
+<h1 class="hh">Check Appointments</h1>
+<div class="card-container">
+
+<% for(var i=0 ; i < apts.length ; i++) {%>
+
+    
+  <div class="card">
+    <div class="card-count-container">
+      <div class="card-count"><%=(i+1)%></div>
+    </div>
+    
+    <div class="card-content">
+      <br>
+      <h2><b>Patient Name : </b><%=apts[i].patientName%></h2>
+      <h5><b> Age : </b><%=apts[i].age%> Years Old</h5>
+      <hr>
+      <b> Contact Details : </b><%=apts[i].patientContact%> <br>
+      <b> Email : </b> <%=apts[i].patientEmail%>
+      <!-- <div class="card-content"> -->
+        <br>
+        <b>Description : </b><%=apts[i].description%>
+      <!-- </div> -->
+    </div>
+    
+    <div class="card-footer">
+        <b>Appointment Schedule : </b>
+        <br>
+        <b>Date : </b> <%=apts[i].date%> 
+        <b>,   Time : </b><%=apts[i].time%>
+
+        <button class="btn">Add Prescription</button>
+    </div>
+  </div>
+  
+<% } %>
+</div>
+<style>
+  @import url('https://fonts.googleapis.com/css?family=Abel');
+
+  .card{
+    font-family: Abel, Arial, Verdana, sans-serif;
+    background-image: url('/img/aptcard.webp');
+    background-repeat: no-repeat;
+    background-size: 300px 250px;
+    background-position: 50% -5%;
+    
+  }
+  .hh{
+    font-family: Abel, Arial, Verdana, sans-serif;
+  }
+
+  body{
+    background-image: linear-gradient(90deg, #212926, #7c8789);
+  }
+</style>

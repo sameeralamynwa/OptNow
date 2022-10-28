@@ -77,19 +77,23 @@
     <% } %>
 </div>
 
-<link rel="stylesheet" href="../css/layout.css">
-<link rel="stylesheet" href="../css/allDocs.css">
+<link rel="stylesheet" href="/../../css/layout.css">
+<link rel="stylesheet" href="/../../css/allDocs.css">
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     async function call(element){ 
-        // console.log(x.name);
         let docId = element.name;
+        // console.log(docId);
         let sp = window.location.pathname.toString();
         sp = sp.substring(5);
-        // console.log(sp);
-        let resp = await axios.post(`/apt/${sp}`, {
-            docId : docId
-        });
-        console.log(resp);
+        document.location.href = `../book/${docId}`;
+        // document.location.href  = `/${sp}/${docId}`
+        // let resp = await axios.post(`/apt/${sp}`, {
+        //     docId : docId
+        // });
+        // console.log(resp);
     }
+
+    // POST REQUEST RENDER NOT WORKING
 </script>
+

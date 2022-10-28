@@ -1,0 +1,56 @@
+<link rel="stylesheet" href="/css/patientHome.css">
+<h1 class="text-center">welcome <%= username %>
+</h1>
+<h3 class="text-center">your services</h3>
+<div class="svs d-flex flex-row justify-content-center align-items-center flex-wrap">
+    <div class="service d-flex flex-column ">
+        <img src="/img/aptmnt.jpg" alt="alt text">
+        <button type="button" id="checkapts" class="ii">
+            Check Appointments
+        </button>
+    </div>
+    <div class="service d-flex flex-column ">
+        <img src="/img/pres.webp" alt="alt text">
+        <button type="button" id="pres" class="ii">
+            Add Prescriptions
+        </button>
+    </div>
+    <div class="service d-flex flex-column ">
+        <img src="/img/fb.jpg" alt="alt text">
+        <button type="button" id="fb" class="ii">
+            Check Feedbacks
+        </button>
+    </div>
+
+
+</div>
+
+<script>
+
+    let pres = document.getElementById('checkapts');
+    pres.addEventListener('click', function (e) {
+        document.location.href = "/checkAppointments";
+    });
+
+    let stores = document.getElementById('fb');
+    stores.addEventListener('click', function (e) {
+        document.location.href = "/checkFeedbacks";
+    });
+
+    let searchDoctor = document.getElementById('searchDoctor');
+    searchDoctor.addEventListener('click', async function (e) {
+        e.preventDefault();
+        let special = document.getElementById('special');
+        let sp = special.options[special.selectedIndex].text;
+        console.log(sp);
+        document.location.href = `/apt/${sp}`
+    })
+</script>
+
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Abel');
+    .ii{
+      font-family: Abel, Arial, Verdana, sans-serif;
+      font-weight: bolder;
+    }
+</style>
