@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
-h1,h3{
+h1,h4,h3{
     /* font-family: 'Pacifico', cursive; */
     font-family: 'Indie Flower', cursive;
 }
@@ -27,4 +27,5 @@ h1,h3{
 .service button:hover{
     background-color: #020024;
     color: #FBC02D;
+    transition: 0.3s;
 }
