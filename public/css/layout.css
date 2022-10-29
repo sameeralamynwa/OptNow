@@ -1,5 +1,6 @@
 /* IMPORTS */
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&display=swap');
 /*  */
 .carousel-item {
 
@@ -13,13 +14,19 @@
     /* background-size: cover;
     background-repeat: no-repeat;
     background-position: center; */
+    font-family: 'Comfortaa', cursive;
   }
   .carousel-caption {
     background-color: rgb(45, 42, 42);
+
+    /* position: relative; */
+    /* top: 20px; */
+
+    /* background-color: rgb(84, 176, 84); */
     color: white;
     /* bottom: 270px; */
     bottom: 35vh;
-
+    /* opacity: 0.7; */
     display: flex;
     justify-content: center;
     align-items: center;
