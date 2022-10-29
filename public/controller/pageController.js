@@ -684,7 +684,7 @@ module.exports.giveReport = async function giveReport(req, res){
     // console.log(currRecord.major_disease);
     // console.log(currRecord.mtr);
     // console.log(currRecord.date_from, currRecord.date_to);
-    console.log(currRecord);
+    // console.log(currRecord);
     cost += parseInt(currDoc.charges);
     // console.log(cost);
     cost += currUser.expenses;
@@ -698,7 +698,7 @@ module.exports.giveReport = async function giveReport(req, res){
         expenses : cost
     })
 
-    console.log(updatedUser);
+    // console.log(updatedUser);
     return res.send("done");
     
     
