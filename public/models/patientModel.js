@@ -76,6 +76,10 @@ const patientSchema = new mongoose.Schema({
     },
     pin : {
         type : String
+    },
+    expenses : {
+        type : Number,
+        default : 0
     }
 });
 

@@ -1,0 +1,393 @@
+<div class="head text-center">
+    <b>
+        <h1>Add Patient's Medical Record</h1>
+    </b>
+    <br>
+</div>
+<div class="d-flex mx-auto col-md-7 waste ">
+
+    <!--Form starting-->
+
+    <form id="mainform" class="row g-3 needs-validation" novalidate>
+
+        <div class="col-md-12">
+            <label for="patientid" class="form-label">Patient ID </label>
+            <input type="text" class="form-control" id="patientId" name="patientid" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Mandatory !
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <label for="sdate" class="form-label">Starting Prescription Date </label>
+            <input type="date" class="form-control" id="sdate" name="sdate" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Mandatory !
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <label for="edate" class="form-label">Ending Prescription Date</label>
+            <input type="date" min="0" max="2500" class="form-control" id="edate" name="edate" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Mandatory !
+            </div>
+        </div>
+
+
+        <div class="col-md-12">
+            <label for="symptoms" class="form-label">Patient's Symptoms</label>
+            <textarea class="form-control" id="symptoms" name="symptoms" rows="3" required></textarea>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Mandatory !
+            </div>
+
+        </div>
+
+        <hr>
+        <!-- {{!-- <div id="medicine" class="my-3 card card-body"> --}} -->
+        <div id="medicine" class="my-3 card card-body bg-dark text-light">
+            <h4 class="fw-bold">Add New Medicine</h4>
+            <label for="medicinename" class="form-label">Name of Dose &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dosage Cost</label>
+
+            <div class="d-inline">
+                <input type="text" id="medicinename" placeholder="Eg Dolo" class="col-md-3">
+                <input type="number" id="medicinecost" class="col-md-3 mx-3">
+
+
+                <div class="form-check form-check-inline mx-2">
+                    <input class="form-check-input" type="checkbox" id="morning" value="option1">
+                    <label class="form-check-label" for="morning">Morning</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="afternoon" value="option2">
+                    <label class="form-check-label" for="afternoon">Afternoon</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="dinner" value="option3">
+                    <label class="form-check-label" for="dinner">Dinner</label>
+                </div>
+            </div>
+            <span onclick="addElement()" class="btn btn-warning my-3">Add</span>
+        </div>
+
+
+        <table id="medicinetable" class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Name of Dosage</th>
+                    <th scope="col">Cost of the Dosage</th>
+                    <th scope="col">Morning</th>
+                    <th scope="col">Afternoon</th>
+                    <th scope="col">Dinner</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+        <hr>
+        <div class="my-3 card card-body bg-dark text-light">
+            <h4 class="fw-bold">Add Operation</h4>
+                <label for="medicinename" class="form-label">Operation Required &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Operation Charges
+                </label>
+
+                <div class="d-inline">
+                    <input type="text" id="operation" placeholder="Eg Ultrasound" class="col-md-3" name="operation">
+                    <input type="number" id="operationcost" class="col-md-3 mx-3" name="operationcost">
+                    <span onclick="addOperation()" class="btn btn-warning my-3">Add</span>
+                </div>
+        </div>
+
+        <table id="operationtable" class="table table-dark table-striped my-4">
+            <thead>
+                <tr>
+                    <th scope="col">Name of Operation</th>
+                    <th scope="col">Cost of Operation</th>
+                    <th scope="col">Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+        <!-- <br><br><br><br><br> -->
+        <hr>
+        <hr><hr><hr><hr><hr><hr><hr><hr>  
+        <!-- <br> -->
+        <div class="card card-body bg-dark pro text-light">
+            <h4 class="fw-bold">Add Medical Procedure followed</h4>
+                <label for="medicalProcedure" class="form-label">Medical Procedure 
+                </label>
+                <select class="form-control col-md-6 " id="procedure">
+                    <option value="" selected>Assessment of anxiety</option>
+                    <option value="">Assessment using Morse Fall Scale</option>
+                    <option value="">Catheter ablation of tissue of heart</option>
+                    <option value="">Medication Reconcilation</option>
+                    <option value="">Screening for domestic abuse</option>
+                    
+                </select>   
+        </div>
+        <hr>
+
+
+    </form>
+
+</div><br><br>
+<div class="col-3 mt-3 sub">
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-orange" onclick="send()">
+        Submit
+    </button>
+</div>
+<div id="simpleModal" class="modal waste" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><b> Success </b></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Medical Report has been sent.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="hide" onclick="close()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Bootstrap 5 : JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous">
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    var medicines = [];
+    var operations = [];
+    var procedures = [];
+
+    function addElement() {
+
+        var medicine_object = {}
+        medicine_object.morning = false
+        medicine_object.afternoon = false
+        medicine_object.dinner = false
+        var check = document.getElementById("medicinename")
+        var morning = document.getElementById("morning")
+        var afternoon = document.getElementById("afternoon")
+        var dinner = document.getElementById("dinner")
+        var table = document.getElementById("medicinetable")
+        var cost = document.getElementById("medicinecost")
+        var row = table.insertRow();
+        var randomNumber = Math.random().toFixed(5)
+        medicine_object.name = check.value
+        medicine_object.id = randomNumber
+        medicine_object.cost = parseFloat(cost.value)
+
+        row.setAttribute("id", `${randomNumber}`, 0);
+        // Insert new cells (<td> elements) :
+        var cell1 = row.insertCell();
+        var cell2 = row.insertCell();
+        var cell3 = row.insertCell();
+        var cell4 = row.insertCell();
+        var cell5 = row.insertCell();
+        var cell6 = row.insertCell();
+        cell1.innerHTML = `<td>${check.value}</td>`;
+        cell2.innerHTML = `<td>${cost.value}</td>`
+        if (morning.checked) {
+            medicine_object.morning = true
+            cell3.innerHTML = "<td>&#9989;</td>";
+        } else {
+            cell3.innerHTML = "<td>&#10060;</td>";
+        }
+        if (afternoon.checked) {
+            medicine_object.afternoon = true;
+            cell4.innerHTML = "<td>&#9989;</td>";
+        } else {
+            cell4.innerHTML = "<td>&#10060;</td>";
+        }
+        if (dinner.checked) {
+            medicine_object.dinner = true;
+            cell5.innerHTML = "<td>&#9989;</td>";
+        } else {
+            cell5.innerHTML = "<td>&#10060;</td>";
+        }
+        cell6.innerHTML = `<button onClick="removeElement(this.id)" id=${randomNumber} class="btn btn-sm btn-danger">Remove</button>`
+        medicines.push(medicine_object)
+
+    }
+
+    function removeElement(id) {
+        var row = document.getElementById(id);
+        row.parentNode.removeChild(row);
+        name = row.cells[0].innerHTML
+
+        medicines = medicines.filter((elem) => {
+            return elem.name !== name
+        })
+    }
+
+
+    function removeElement1(id) {
+        var row = document.getElementById(id);
+        row.parentNode.removeChild(row);
+        name = row.cells[0].innerHTML
+
+        operations = operations.filter((elem) => {
+            return elem.name !== name
+        })
+
+
+    }
+
+    async function addOperation() {
+        var operation_object = {}
+        let operation_name = document.getElementById("operation").value;
+        // console.log(operation_name);
+        var operation_cost = parseFloat(document.getElementById("operationcost").value)
+
+        var table = document.getElementById("operationtable")
+        var id = Math.random()
+        operation_object.name = operation_name
+        operation_object.cost = operation_cost
+        operation_object.id = id
+
+
+        var row = table.insertRow();
+
+        row.setAttribute("id", `${id}`, 0);
+        var cell1 = row.insertCell();
+        var cell2 = row.insertCell();
+        var cell3 = row.insertCell();
+
+        cell1.innerHTML = `<td>${operation_name}</td>`
+        cell2.innerHTML = `<td>${operation_cost}</td>`
+        cell3.innerHTML = `<button onClick="removeElement1(this.id)" id=${id} class="btn btn-sm btn-danger">Remove</button>`
+        operations.push(operation_object)
+
+    }
+
+    async function send() {
+        var x = document.getElementById("procedure");
+        var value = x.value;
+        var procedure = x.options[x.selectedIndex].text;
+        var patientId = document.getElementById('patientId').value;
+        var sdate = document.getElementById('sdate').value;
+        var edate = document.getElementById('edate').value;
+        var symptoms = document.getElementById('symptoms').value;
+        let resp = await axios.post('/addPrescription', {
+            patientId : patientId,
+            date_from : sdate,
+            date_to : edate,
+            mtr : operations,
+            mpf : procedure,
+            dosage : medicines,
+            major_disease : symptoms
+        });
+        if (resp.data == 'done'){ 
+            $("#simpleModal").modal('show');
+            setTimeout(function(){
+                document.location.href = '/doctorHome';
+            }, 1500);
+            
+        }
+        else alert('invalid paitent id');
+
+
+    }
+
+    function close(){
+        $("#simpleModal").modal('hide');
+    }
+</script>
+
+
+<style>
+    /* .waste{
+        background-color: aquamarine;
+    } */
+    @import url('https://fonts.googleapis.com/css?family=Abel');
+
+    body {
+        background-color: #343a40;
+        color: white;
+        /* font-family: Abel, Arial, Verdana, sans-serif; */
+    }
+
+    .card {
+        border: 0px;
+        outline: none;
+    }
+
+    hr {
+        width: 80%;
+        margin: auto;
+        color: white;
+        background-color: white;
+        position: relative;
+        top: 16px;
+        height: 1px;
+
+    }
+
+    .waste,h1 {
+        font-family: Abel, Arial, Verdana, sans-serif;
+    }
+    .waste {
+        border: 1px solid white;
+        /* padding: 5px; */
+        padding-bottom: 5px;
+
+    }
+
+
+    .modal {
+        color: black;
+    }
+    select{
+        padding: 0px !important;
+    }
+    .sub{
+        margin: auto;
+        position: relative;
+        top: -20px;
+        left: 50px;
+        font-family: Abel, Arial, Verdana, sans-serif;
+
+    }
+    .sub button:hover{
+        background-color: #ffc107;
+        color: #212529;
+        transition: 0.3s;
+    }
+    
+</style>

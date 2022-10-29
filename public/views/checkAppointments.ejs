@@ -16,6 +16,7 @@
     <div class="card-content">
       <br>
       <h2><b>Patient Name : </b><%=apts[i].patientName%></h2>
+      <h5><b> Patient ID : </b><%=apts[i].patientId%></h5>
       <h5><b> Age : </b><%=apts[i].age%> Years Old</h5>
       <hr>
       <b> Contact Details : </b><%=apts[i].patientContact%> <br>
@@ -32,7 +33,7 @@
         <b>Date : </b> <%=apts[i].date%> 
         <b>,   Time : </b><%=apts[i].time%>
 
-        <button class="btn">Add Prescription</button>
+        <button class="btn" id="add">Add Prescription</button>
     </div>
   </div>
   
@@ -57,3 +58,10 @@
     background-image: linear-gradient(90deg, #212926, #7c8789);
   }
 </style>
+
+<script>
+  let add = document.getElementById('add');
+  add.addEventListener('click', function (e){
+    document.location.href = '/addPrescription';
+  })
+</script>

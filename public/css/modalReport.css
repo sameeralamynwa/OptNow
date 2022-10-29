@@ -3,7 +3,13 @@ sans-serif;
 /* background: #eee; */
 
 
-
+header{
+  margin: 0px;
+  padding: 0px;
+  position: relative;
+  top: 0;
+  
+}
 
 .close:focus {
 
