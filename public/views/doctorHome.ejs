@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="/css/patientHome.css">
-<h1 class="text-center">welcome <%= username %>
+<h1 class="text-center">welcome <b><%= username %></b>
 </h1>
-<h3 class="text-center">your services</h3>
+<h3 class="text-center">your services</h3> <br>
 <div class="svs d-flex flex-row justify-content-center align-items-center flex-wrap">
     <div class="service d-flex flex-column ">
         <img src="/img/aptmnt.jpg" alt="alt text">
@@ -12,7 +12,7 @@
     <div class="service d-flex flex-column ">
         <img src="/img/pres.webp" alt="alt text">
         <button type="button" id="pres" class="ii">
-            Add Prescriptions
+            Consult Patients
         </button>
     </div>
     <div class="service d-flex flex-column ">
@@ -37,13 +37,9 @@
         document.location.href = "/checkFeedbacks";
     });
 
-    let searchDoctor = document.getElementById('searchDoctor');
+    let searchDoctor = document.getElementById('pres');
     searchDoctor.addEventListener('click', async function (e) {
-        e.preventDefault();
-        let special = document.getElementById('special');
-        let sp = special.options[special.selectedIndex].text;
-        console.log(sp);
-        document.location.href = `/apt/${sp}`
+        document.location.href = "/addPrescription";
     })
 </script>
 

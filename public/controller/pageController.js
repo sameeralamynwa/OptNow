@@ -5,6 +5,7 @@ const NodeGeocoder = require('node-geocoder');
 // import fetch from 'node-fetch';
 const fetch = require('node-fetch');
 const jwt = require('jsonwebtoken');
+const { findOneAndUpdate } = require('../models/doctorModel.js');
 const JWT_KEY = 'mykey123';
 
 const options = {
@@ -18,7 +19,7 @@ module.exports.getHome = function getHome(req, res) {
     let firstName = req.cookies.firstName;
     let userType = req.cookies.userType;
     return res.render('index.ejs', {
-        name: "HomePage" ,
+        name: "Homepage" ,
         firstName : firstName,
         userType : userType
     });
@@ -351,48 +352,53 @@ module.exports.bookDoctor = async function bookDoctor(req, res){
 
 module.exports.showPrescriptions = async function showPrescriptions(req, res){
 
-    let currUser = patientModel.findOne({
-        id : req.cookies.patientId
-    });
-    let firstName = req.cookies.firstName;
-    let userType = req.cookies.userType;
+    try{ 
+        let currUser = await patientModel.findOne({
+            patientId : req.cookies.patientId
+        });
+        let firstName = req.cookies.firstName;
+        let userType = req.cookies.userType;
 
-    let dosage = ["dosage1" , "dosage2" , "dosage3"];
-    let Medical_tests_recommended = ["mtest1" ,"mtest2" ,"mtest3"];
-    let Medical_procedure_followed=["mprocedure1" ,"mprocedure2" ,"mprocedure3"];
-    let final_record = [{
-        dr_name : "Manish",
-        special : "Pharmacology", // take this from doctor register page (req.body.special)
-        hospital : "goverment Hospital",
-        add: "sadar bazar Makrana",
-        major_disease: "fever",
-        date_from : "20 Nov 2020",
-        date_to :"25 NOv 2020",
-        dosage: dosage,
-        mtr : Medical_tests_recommended,
-        mpf : Medical_procedure_followed
-    },
-    {
-        dr_name : "saad",
-        special : "Orthopaedics",
-        hospital : "private Hospital",
-        add: "sadar bazar Makrana",
-        major_disease: "cold",
-        date_from : "20 Nov 2021",
-        date_to :"30 NOv 2021",
-        dosage: dosage,
-        mtr : Medical_tests_recommended,
-        mpf : Medical_procedure_followed
-    }];
-
-    return res.render('viewPrescriptions.ejs', {
-        name : "Show Medical Records",
-        // records : currUser.records,
-        records : final_record,
-        firstName : firstName,
-        userType : userType
-    });
+        // let dosage = ["dosage1" , "dosage2" , "dosage3"];
+        // let Medical_tests_recommended = ["mtest1" ,"mtest2" ,"mtest3"];
+        // let Medical_procedure_followed=["mprocedure1" ,"mprocedure2" ,"mprocedure3"];
+        // let final_record = [{
+        //     dr_name : "Manish",
+        //     special : "Pharmacology", // take this from doctor register page (req.body.special)
+        //     hospital : "goverment Hospital",
+        //     add: "sadar bazar Makrana",
+        //     major_disease: "fever",
+        //     date_from : "20 Nov 2020",
+        //     date_to :"25 NOv 2020",
+        //     dosage: dosage,
+        //     mtr : Medical_tests_recommended,
+        //     mpf : Medical_procedure_followed
+        // },
+        // {
+        //     dr_name : "saad",
+        //     special : "Orthopaedics",
+        //     hospital : "private Hospital",
+        //     add: "sadar bazar Makrana",
+        //     major_disease: "cold",
+        //     date_from : "20 Nov 2021",
+        //     date_to :"30 NOv 2021",
+        //     dosage: dosage,
+        //     mtr : Medical_tests_recommended,
+        //     mpf : Medical_procedure_followed
+        // }];
+        console.log(currUser.records);
+        return res.render('viewPrescriptions.ejs', {
+            name : "My Medical Records",
+            // records : currUser.records,
+            records : currUser.records,
+            firstName : firstName,
+            userType : userType
+        });
+    }catch(err){
+        return res.send(err);
+    }
 };
+
 
 module.exports.getChemists = async function getChemists(req, res){
     let currUser = await patientModel.findOne({
@@ -431,6 +437,19 @@ module.exports.getChemists = async function getChemists(req, res){
         stores : stores
     });
 };
+
+module.exports.checkRisk = function checkRisk(req, res){
+
+    let firstName = req.cookies.firstName;
+    let userType = req.cookies.userType;
+
+    return res.render('patientMedicalForm.ejs', {
+        name : 'Rehospitalization Risk',
+        firstName : firstName,
+        userType : userType
+    });
+
+}
 
 module.exports.login = async function login(req, res){
 
@@ -517,11 +536,6 @@ module.exports.showFeedbacks = async function showFeedbacks(req, res) {
     let currDoc = await doctorModel.findById(req.cookies.doctorId);
     let allapts = [];
     for(let i = 0; i < currDoc.apts.length ; i++){
-        // currDoc.apts[i].patientName = "Manish"
-        // currDoc.apts[i].patientContact = "1234567890"
-        // currDoc.apts[i].patientEmail = "manish@gamil.com"
-        // currDoc.apts[i].patientId = "1"
-        // currDoc.apts[i].age = "21";
         if (currDoc.apts[i].patientId && currDoc.apts[i].type == 'fb'){
             let currUser = await patientModel.findOne({
                 patientId : currDoc.apts[i].patientId
@@ -531,6 +545,7 @@ module.exports.showFeedbacks = async function showFeedbacks(req, res) {
             currDoc.apts[i].patientContact = currUser.contact;
             currDoc.apts[i].patientEmail = currUser.email;
             currDoc.apts[i].age = currUser.age;
+            currDoc.apts[i].patientId = currUser.patientId;
             allapts.push(currDoc.apts[i]);
         }
     }
@@ -546,7 +561,6 @@ module.exports.showFeedbacks = async function showFeedbacks(req, res) {
     });
 };
  
-//TODO
 module.exports.showAppointments = async function showAppointments(req, res) {
  
     let currDoc = await doctorModel.findById(req.cookies.doctorId);
@@ -561,6 +575,7 @@ module.exports.showAppointments = async function showAppointments(req, res) {
             currDoc.apts[i].patientContact = currUser.contact;
             currDoc.apts[i].patientEmail = currUser.email;
             currDoc.apts[i].age = currUser.age;
+            currDoc.apts[i].patientId = currUser.patientId;
             allapts.push(currDoc.apts[i]);
         }
     }
@@ -600,6 +615,93 @@ module.exports.authDoctor = async function authDoctor(req, res, next){
     }catch(err){
         console.log(err);
     }
+};
+
+module.exports.enterDetails = async function enterDetails(req, res){
+
+    let firstName = req.cookies.firstName;
+    let userType = req.cookies.userType;
+
+    return res.render('addPrescription.ejs', {
+        name : 'Add Medical Report',
+        userType : userType,
+        firstName : firstName
+    })
+};
+
+module.exports.giveReport = async function giveReport(req, res){
+
+    // return res.send("done");
+    let currDoc = await doctorModel.findById(req.cookies.doctorId);
+    let currClinic = await clinicModel.findOne({
+        id : currDoc.clinicId
+    });
+    let currUser = await patientModel.findOne({
+        patientId : req.body.patientId
+    });
+
+    if (!currUser || !currClinic)
+        return res.send("error");
+
+    // console.log(req.body.dosage);
+    // console.log(req.body.mpr);
+    // console.log(req.body.mtr)
+    // console.log(req.body.major_disease);
+    let currRecord = {};
+    currRecord.dr_name = currDoc.firstName + " " + currDoc.lastName;
+    currRecord.special = currDoc.special;
+    currRecord.hospital = currClinic.name;
+    currRecord.add = currClinic.address;
+    currRecord.major_disease = req.body.major_disease;
+    currRecord.date_from = req.body.date_from;
+    currRecord.date_to = req.body.date_to;
+    currRecord.mpf = req.body.mpf;
+    let cost = 0;
+    currRecord.dosage = [];
+    currRecord.mtr = [];
+    for (let i = 0; i < req.body.dosage.length; ++i){
+        let x = "";
+        if (req.body.dosage[i].morning)
+            x += 'M';
+        if (req.body.dosage[i].afternoon)
+            x += 'A';
+        if (req.body.dosage[i].dinner)
+            x += 'D';
+        currRecord.dosage.push(
+            req.body.dosage[i].name + " " + x
+            );
+
+        cost += req.body.dosage[i].cost;
+    }
+
+    for (let i = 0; i < req.body.mtr.length; ++i){
+        currRecord.mtr.push(
+            req.body.mtr[i].name
+        );
+        // console.log(req.body.mtr[i].cost);
+        cost += parseInt(req.body.mtr[i].cost);
+    };
+    // console.log(currRecord.major_disease);
+    // console.log(currRecord.mtr);
+    // console.log(currRecord.date_from, currRecord.date_to);
+    console.log(currRecord);
+    cost += parseInt(currDoc.charges);
+    // console.log(cost);
+    cost += currUser.expenses;
+    let allRecords = currUser.records;
+    allRecords.push(currRecord);
+    let updatedUser = await patientModel.findOneAndUpdate({
+        patientId : currUser.patientId
+    },
+    {
+        records : allRecords,
+        expenses : cost
+    })
+
+    console.log(updatedUser);
+    return res.send("done");
+    
+    
 };
 
 
