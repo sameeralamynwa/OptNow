@@ -370,7 +370,7 @@ module.exports.showPrescriptions = async function showPrescriptions(req, res){
         });
         let firstName = req.cookies.firstName;
         let userType = req.cookies.userType;
-
+        console.log(currUser.records[0]);
         return res.render('viewPrescriptions.ejs', {
             name : "My Medical Records",
             // records : currUser.records,
@@ -538,7 +538,7 @@ module.exports.showFeedbacks = async function showFeedbacks(req, res) {
     // console.log(words);
     // words += "I’m a delicate and sensitive person, and Dr. Sujeeth I was totally impressed by the way I was treated first time when I met him in 2008 and the way he followed up. He is not only an Excellent Doctor , he is simple, superb Human being, Sober, approachable, a Great Social Worker, friendly approach with smiling face with his selfless service with his selfless services. Always amazing treatment. He is an extraordinary intelligent Doctor with human values. Nice advise, hardly find such non commercial Doctors in this era. Apart from dedication , he also has slight wit which impresses me more resulting in great relief from stress while chatting with him. May God bless him and best wishes for the future."
     // words += `Had the exact same procedure done twice. With the exact same insurance. In the same month! I
-    // checked with my doctor before both procedures on pricing with my insurance. The first one was $130. I
+    // checked with my doctor before both procedures on charges with my insurance. The first one was $130. I
     // paid in full The doctor persuaded me to go to plastics for the 2nd one due to their “comfort levels.” (Doctor insisted
     // both office sides were the same price) So instead of a total bill of $320, it was $785! Not to mention my
     // willingness to pay an extra $60 copay the 2nd time. Guess who got screwed with NO APOLOGY!? I
@@ -546,8 +546,8 @@ module.exports.showFeedbacks = async function showFeedbacks(req, res) {
     // I cannot express how much I felt slapped in the facel I've never left a negative internet feedback
     // anywhere beforel Terrible way to treat a good person`;
 
-    // words += "Had the exact same procedure done twice. With the exact same insurance. In the same month! |checked with my doctor before both procedures on pricing with my insurance. The first one was $130. |paid in full The doctor persuaded me to go to plastics for the 2nd one due to their “comfort levels.” (Doctor insisted both office sides were the same price) So instead of a total bill of $320, it was $785! Not to mention my willingness to pay an extra $60 copay the 2nd time. Guess who got screwed with NO APOLOGY!? |would have been with this place going on 3 years. False claims are NOT taking care of your patients! I cannot express how much I felt slapped in the facel I've never left a negative internet feedback anywhere beforel Terrible way to treat a good person";
-    // words += "pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing "
+    // words += "Had the exact same procedure done twice. With the exact same insurance. In the same month! |checked with my doctor before both procedures on charges with my insurance. The first one was $130. |paid in full The doctor persuaded me to go to plastics for the 2nd one due to their “comfort levels.” (Doctor insisted both office sides were the same price) So instead of a total bill of $320, it was $785! Not to mention my willingness to pay an extra $60 copay the 2nd time. Guess who got screwed with NO APOLOGY!? |would have been with this place going on 3 years. False claims are NOT taking care of your patients! I cannot express how much I felt slapped in the facel I've never left a negative internet feedback anywhere beforel Terrible way to treat a good person";
+    // words += "charges charges charges charges charges charges charges charges charges charges charges charges charges charges charges charges charges charges charges charges charges charges charges "
     // words += `gets it. From his excellent treatment, curiosity, investigative mind and ability to connect, you know where you stand immediately and what next steps look like. Attention doctors if you want a masterclass in watching a doctor bring medical knowledge and build rapport so that message is heard by patient and therefore delivered watch this guy.`;
     // words += 'was terrific. Knowledgeable, sensitive, informative… I immediately felt at ease – and felt confident in my receiving expert medical care. Staff was great, too. Walked away, very impressed w. the overall experience. HIGHLY recommend.';
     // words += "Great experience as a first timer. I barely waited to be helped when I checked in. The staff and Dr. (Name) were all very friendly and helpful. I especially loved how Dr. (Name) really took his time to explain my conditions with me as well as my treatment options. I had a great visit and the doctor’s demeanor has really put me at ease so I highly recommend this clinic.";
@@ -750,7 +750,7 @@ module.exports.cloud = async function cloud(req, res){
     let words = "";
     words += "I’m a delicate and sensitive person, and Dr. Sujeeth I was totally impressed by the way I was treated first time when I met him in 2008 and the way he followed up. He is not only an Excellent Doctor , he is simple, superb Human being, Sober, approachable, a Great Social Worker, friendly approach with smiling face with his selfless service with his selfless services. Always amazing treatment. He is an extraordinary intelligent Doctor with human values. Nice advise, hardly find such non commercial Doctors in this era. Apart from dedication , he also has slight wit which impresses me more resulting in great relief from stress while chatting with him. May God bless him and best wishes for the future."
     words += `Had the exact same procedure done twice. With the exact same insurance. In the same month! I
-    checked with my doctor before both procedures on pricing with my insurance. The first one was $130. I
+    checked with my doctor before both procedures on charges with my insurance. The first one was $130. I
     paid in full The doctor persuaded me to go to plastics for the 2nd one due to their “comfort levels.” (Doctor insisted
     both office sides were the same price) So instead of a total bill of $320, it was $785! Not to mention my
     willingness to pay an extra $60 copay the 2nd time. Guess who got screwed with NO APOLOGY!? I
@@ -758,8 +758,8 @@ module.exports.cloud = async function cloud(req, res){
     I cannot express how much I felt slapped in the facel I've never left a negative internet feedback
     anywhere beforel Terrible way to treat a good person`;
 
-    words += "Had the exact same procedure done twice. With the exact same insurance. In the same month! |checked with my doctor before both procedures on pricing with my insurance. The first one was $130. |paid in full The doctor persuaded me to go to plastics for the 2nd one due to their “comfort levels.” (Doctor insisted both office sides were the same price) So instead of a total bill of $320, it was $785! Not to mention my willingness to pay an extra $60 copay the 2nd time. Guess who got screwed with NO APOLOGY!? |would have been with this place going on 3 years. False claims are NOT taking care of your patients! I cannot express how much I felt slapped in the facel I've never left a negative internet feedback anywhere beforel Terrible way to treat a good person";
-    words += "pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing "
+    words += "Had the exact same procedure done twice. With the exact same insurance. In the same month! |checked with my doctor before both procedures on charges with my insurance. The first one was $130. |paid in full The doctor persuaded me to go to plastics for the 2nd one due to their “comfort levels.” (Doctor insisted both office sides were the same price) So instead of a total bill of $320, it was $785! Not to mention my willingness to pay an extra $60 copay the 2nd time. Guess who got screwed with NO APOLOGY!? |would have been with this place going on 3 years. False claims are NOT taking care of your patients! I cannot express how much I felt slapped in the facel I've never left a negative internet feedback anywhere beforel Terrible way to treat a good person";
+    words += "charges charges charges charges charges charges charges charges charges charges charges charges charges charges charges charges charges charges charges charges charges charges charges "
     words += `gets it. From his excellent treatment, curiosity, investigative mind and ability to connect, you know where you stand immediately and what next steps look like. Attention doctors if you want a masterclass in watching a doctor bring medical knowledge and build rapport so that message is heard by patient and therefore delivered watch this guy.`;
     words += 'was terrific. Knowledgeable, sensitive, informative… I immediately felt at ease – and felt confident in my receiving expert medical care. Staff was great, too. Walked away, very impressed w. the overall experience. HIGHLY recommend.';
     words += "Great experience as a first timer. I barely waited to be helped when I checked in. The staff and Dr. (Name) were all very friendly and helpful. I especially loved how Dr. (Name) really took his time to explain my conditions with me as well as my treatment options. I had a great visit and the doctor’s demeanor has really put me at ease so I highly recommend this clinic.";
@@ -775,7 +775,9 @@ module.exports.cloud = async function cloud(req, res){
     words += "The services that I receive from (DN) is excellent. Dr. (Name) and the staff are friendly and ensure that I am properly informed about my health and care. I would have no qualms in recommending them to friendly and friends."
     words += "The services that I receive from (DN) is excellent. Dr. (Name) and the staff are friendly and ensure that I am properly informed about my health and care. I would have no qualms in recommending them to friendly and friends."
     words += "The services that I receive from (DN) is excellent. Dr. (Name) and the staff are friendly and ensure that I am properly informed about my health and care. I would have no qualms in recommending them to friendly and friends."
-    words += "pricing   "
+    words += "charges  far far far far far far far far far far far far far far far far far far far far far far far far far far far far far far ";
+    // words += "charges  far far far far far far far far far far far far far far far far far far far far far far far far far far far far far far ";
+    // words += "charges  far far far far far far far far far far far far far far far far far far far far far far far far far far far far far far ";
     let input = words;
     const exclude = ["to", "is", "for", "you", "the", "your", "an", "on", "by", "this", "will", "of", "a", "and", "i", "my", "in", "", "with", "that","from", "was" , "name"];
 
