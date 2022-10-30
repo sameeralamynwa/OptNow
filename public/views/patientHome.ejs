@@ -125,19 +125,19 @@
     font-family: 'Anonymous Pro', monospace;  }
 
 /* Animation */
-.anim-typewriter{
-  animation: typewriter 6s steps(44) 1s 1 normal both,
-             /* blinkTextCursor 500ms steps(44) infinite normal; */
-             blinkTextCursor 6s steps(44) 1s 1 normal both;
-}
-@keyframes typewriter{
-  from{width: 0;}
-  to{width: 100%;}
-}
-@keyframes blinkTextCursor{
-  from{border-right-color: rgba(0, 0, 0, 0.75);}
-  to{border-right-color: transparent;}
-} 
+  .anim-typewriter{
+    animation: typewriter 6s steps(100) 1s 1 normal both,
+              /* blinkTextCursor 500ms steps(44) infinite normal; */
+              blinkTextCursor 6s steps(100) 1s 1 normal both;
+  }
+  @keyframes typewriter{
+    from{width: 0;}
+    to{width: 100%;}
+  }
+  @keyframes blinkTextCursor{
+    from{border-right-color: rgba(0, 0, 0, 0.75);}
+    to{border-right-color: transparent;}
+  } 
     .ii{
       font-family: Abel, Arial, Verdana, sans-serif;
       font-weight: bolder;
