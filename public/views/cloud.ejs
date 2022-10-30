@@ -1,0 +1,11 @@
+CLOUD
+<canvas id="my_canvas" width="200" height="200"></canvas>
+<button id="btn" onclick="wc()">CLICK ME</button>
+<script src="css/wordcloud2.js"></script>
+<script>
+    async function wc(){ 
+    let list = [['foo', 35], ['bar', 20], ['fever', 30], ['today', 10], ['better', 60]];
+        // console.log(WordCloud.minFontSize);
+        WordCloud(document.getElementById('my_canvas'), { list: list, shrinkToFit : false, drawOutOfBound : false } );
+    }
+</script>

@@ -1,8 +1,39 @@
 
  <link rel="stylesheet" href="css/viewStores.css">
 
-
+<style>
+  #bttn{
+    margin: auto;
+    position: relative;
+    left: 45%;
+    border: none;
+    outline: none;
+  }
+</style>
  <h1 class="hh">Acknowledge Patients Feedbacks</h1>
+ <button type="button" id="bttn" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Check Word Cloud
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Wordcloud of all the feedbacks</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <canvas class="cc"id="my_canvas" width="200" height="200"></canvas>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
  <div class="card-container">
  
  <% for(var i=0 ; i < apts.length ; i++) {%>
@@ -51,6 +82,45 @@
 
   body{
     background-image: linear-gradient(90deg, #212926, #7c8789);
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script src="css/wordcloud2.js"></script>
+<script>
+  window.onload = async function(e){
+    let resp = await axios.post('/cloud');
+    // console.log(resp.data);
+    resp = resp.data;
+    console.log(resp.pricing);
+    let list = [[]];
+    for (var key in resp){
+      list.push([key, parseInt(resp[key])])
+    }
+    // console.log(list[0]);
+    // console.log(list.length);
+    list = list.slice(1,list.length);
+    // console.log(list.length)
+    // console.log(list[2]);
+    // let x = document.getElementById('bttn');
+    // x.addEventListener('click', async function(e){
+    //   setTimeout(() => {
+        WordCloud(document.getElementById('my_canvas'), { list: list, shrinkToFit : true, drawOutOfBound : false , minSize : '3', weightFactor : '2'} );
+    //   }, 1500);
+    // })
+    // console.log(x);
+
+    
+
+  }
+</script>
+<style>
+  .cc{
+    margin: auto;
+    width: 60%;
+    position: relative;
+
+    left: 20%;
   }
 </style>
  
