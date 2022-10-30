@@ -62,9 +62,11 @@ module.exports.registerPageDoctor = function registerPageDoctor(req, res){
     });
 }
 
-module.exports.registerPageClinic = function registerPageClinic(req, res){
+module.exports.registerPageClinic = async function registerPageClinic(req, res){
     let firstName = req.cookies.firstName;
     let userType = req.cookies.userType;
+    let allClinics = await clinicModel.find();
+    // console.log(allClinics);
     return res.render('registerClinic.ejs', {
         name : "Register Clinic",
         firstName : firstName,
@@ -127,6 +129,7 @@ module.exports.registerClinic = async function registerClinic(req , res){
             long : location.longitude,
             state : location.state
         });
+        console.log(newClinic);
         // console.log(newClinic);
         return res.send("done");
         }
