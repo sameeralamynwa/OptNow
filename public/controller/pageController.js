@@ -2,6 +2,7 @@ const patientModel = require('../models/patientModel.js');
 const doctorModel = require('../models/doctorModel.js');
 const clinicModel = require('../models/clinicModel.js');
 const NodeGeocoder = require('node-geocoder');
+
 // import fetch from 'node-fetch';
 const fetch = require('node-fetch');
 const jwt = require('jsonwebtoken');
@@ -75,11 +76,19 @@ module.exports.patientHome = function patientHome(req, res){
     let firstName = req.cookies.firstName;
     let userType = req.cookies.userType;
 
+    let quotes = [`There is hope even when your brain tells you there isn't`, 
+    `You're like a grey sky. You're beautiful even though you dont want to be`, 
+    `Get plenty of sunshine and do things you enjoy to unwind at the end of the day`];
+    let idx = Math.floor(Math.random()*4);
+    if (idx == 3)
+        idx = 2;
+    // console.log(idx, quotes[idx])
     return res.render('patientHome.ejs', {
         name : "Patient Profile",
         username : req.cookies.firstName,
         firstName : firstName,
-        userType : userType
+        userType : userType,
+        quo : quotes[idx]
     })
 }
 
@@ -359,34 +368,6 @@ module.exports.showPrescriptions = async function showPrescriptions(req, res){
         let firstName = req.cookies.firstName;
         let userType = req.cookies.userType;
 
-        // let dosage = ["dosage1" , "dosage2" , "dosage3"];
-        // let Medical_tests_recommended = ["mtest1" ,"mtest2" ,"mtest3"];
-        // let Medical_procedure_followed=["mprocedure1" ,"mprocedure2" ,"mprocedure3"];
-        // let final_record = [{
-        //     dr_name : "Manish",
-        //     special : "Pharmacology", // take this from doctor register page (req.body.special)
-        //     hospital : "goverment Hospital",
-        //     add: "sadar bazar Makrana",
-        //     major_disease: "fever",
-        //     date_from : "20 Nov 2020",
-        //     date_to :"25 NOv 2020",
-        //     dosage: dosage,
-        //     mtr : Medical_tests_recommended,
-        //     mpf : Medical_procedure_followed
-        // },
-        // {
-        //     dr_name : "saad",
-        //     special : "Orthopaedics",
-        //     hospital : "private Hospital",
-        //     add: "sadar bazar Makrana",
-        //     major_disease: "cold",
-        //     date_from : "20 Nov 2021",
-        //     date_to :"30 NOv 2021",
-        //     dosage: dosage,
-        //     mtr : Medical_tests_recommended,
-        //     mpf : Medical_procedure_followed
-        // }];
-        console.log(currUser.records);
         return res.render('viewPrescriptions.ejs', {
             name : "My Medical Records",
             // records : currUser.records,
@@ -535,6 +516,7 @@ module.exports.showFeedbacks = async function showFeedbacks(req, res) {
     // let currDoc = await doctorModel.findOne({firstName:req.cookies.firstName});
     let currDoc = await doctorModel.findById(req.cookies.doctorId);
     let allapts = [];
+    let words = "";
     for(let i = 0; i < currDoc.apts.length ; i++){
         if (currDoc.apts[i].patientId && currDoc.apts[i].type == 'fb'){
             let currUser = await patientModel.findOne({
@@ -546,18 +528,74 @@ module.exports.showFeedbacks = async function showFeedbacks(req, res) {
             currDoc.apts[i].patientEmail = currUser.email;
             currDoc.apts[i].age = currUser.age;
             currDoc.apts[i].patientId = currUser.patientId;
+            words = words + " " + currDoc.apts[i].description;
             allapts.push(currDoc.apts[i]);
         }
     }
- 
+    // console.log(words);
+    // words += "I’m a delicate and sensitive person, and Dr. Sujeeth I was totally impressed by the way I was treated first time when I met him in 2008 and the way he followed up. He is not only an Excellent Doctor , he is simple, superb Human being, Sober, approachable, a Great Social Worker, friendly approach with smiling face with his selfless service with his selfless services. Always amazing treatment. He is an extraordinary intelligent Doctor with human values. Nice advise, hardly find such non commercial Doctors in this era. Apart from dedication , he also has slight wit which impresses me more resulting in great relief from stress while chatting with him. May God bless him and best wishes for the future."
+    // words += `Had the exact same procedure done twice. With the exact same insurance. In the same month! I
+    // checked with my doctor before both procedures on pricing with my insurance. The first one was $130. I
+    // paid in full The doctor persuaded me to go to plastics for the 2nd one due to their “comfort levels.” (Doctor insisted
+    // both office sides were the same price) So instead of a total bill of $320, it was $785! Not to mention my
+    // willingness to pay an extra $60 copay the 2nd time. Guess who got screwed with NO APOLOGY!? I
+    // would have been with this place going on 3 years. False claims are NOT taking care of your patients!
+    // I cannot express how much I felt slapped in the facel I've never left a negative internet feedback
+    // anywhere beforel Terrible way to treat a good person`;
+
+    // words += "Had the exact same procedure done twice. With the exact same insurance. In the same month! |checked with my doctor before both procedures on pricing with my insurance. The first one was $130. |paid in full The doctor persuaded me to go to plastics for the 2nd one due to their “comfort levels.” (Doctor insisted both office sides were the same price) So instead of a total bill of $320, it was $785! Not to mention my willingness to pay an extra $60 copay the 2nd time. Guess who got screwed with NO APOLOGY!? |would have been with this place going on 3 years. False claims are NOT taking care of your patients! I cannot express how much I felt slapped in the facel I've never left a negative internet feedback anywhere beforel Terrible way to treat a good person";
+    // words += "pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing "
+    // words += `gets it. From his excellent treatment, curiosity, investigative mind and ability to connect, you know where you stand immediately and what next steps look like. Attention doctors if you want a masterclass in watching a doctor bring medical knowledge and build rapport so that message is heard by patient and therefore delivered watch this guy.`;
+    // words += 'was terrific. Knowledgeable, sensitive, informative… I immediately felt at ease – and felt confident in my receiving expert medical care. Staff was great, too. Walked away, very impressed w. the overall experience. HIGHLY recommend.';
+    // words += "Great experience as a first timer. I barely waited to be helped when I checked in. The staff and Dr. (Name) were all very friendly and helpful. I especially loved how Dr. (Name) really took his time to explain my conditions with me as well as my treatment options. I had a great visit and the doctor’s demeanor has really put me at ease so I highly recommend this clinic.";
+    // words += "Great experience as a first timer. I barely waited to be helped when I checked in. The staff and Dr. (Name) were all very friendly and helpful. I especially loved how Dr. (Name) really took his time to explain my conditions with me as well as my treatment options. I had a great visit and the doctor’s demeanor has really put me at ease so I highly recommend this clinic.";
+    // words += "Great medical office, wonderful and warm experience from start to finish. Appreciate Dr. (Name) taking time to go over the diagnosis clearly and treatment options. Was referred over by my general doctor and can see why. Highly recommended."
+    // words += "Great medical office, wonderful and warm experience from start to finish. Appreciate Dr. (Name) taking time to go over the diagnosis clearly and treatment options. Was referred over by my general doctor and can see why. Highly recommended."
+    // words += "Great medical office, wonderful and warm experience from start to finish. Appreciate Dr. (Name) taking time to go over the diagnosis clearly and treatment options. Was referred over by my general doctor and can see why. Highly recommended."
+    // words += "Great medical office, wonderful and warm experience from start to finish. Appreciate Dr. (Name) taking time to go over the diagnosis clearly and treatment options. Was referred over by my general doctor and can see why. Highly recommended."
+    // words += "The services that I receive from (DN) is excellent. Dr. (Name) and the staff are friendly and ensure that I am properly informed about my health and care. I would have no qualms in recommending them to friendly and friends."
+    // words += "The services that I receive from (DN) is excellent. Dr. (Name) and the staff are friendly and ensure that I am properly informed about my health and care. I would have no qualms in recommending them to friendly and friends."
+    // words += "The services that I receive from (DN) is excellent. Dr. (Name) and the staff are friendly and ensure that I am properly informed about my health and care. I would have no qualms in recommending them to friendly and friends."
+    // words += "The services that I receive from (DN) is excellent. Dr. (Name) and the staff are friendly and ensure that I am properly informed about my health and care. I would have no qualms in recommending them to friendly and friends."
+    // words += "The services that I receive from (DN) is excellent. Dr. (Name) and the staff are friendly and ensure that I am properly informed about my health and care. I would have no qualms in recommending them to friendly and friends."
+    // words += "The services that I receive from (DN) is excellent. Dr. (Name) and the staff are friendly and ensure that I am properly informed about my health and care. I would have no qualms in recommending them to friendly and friends."
+    // words += "The services that I receive from (DN) is excellent. Dr. (Name) and the staff are friendly and ensure that I am properly informed about my health and care. I would have no qualms in recommending them to friendly and friends."
+
+    // console.log(words);
+    let input = words;
+    const exclude = ["to", "is", "for", "you", "the", "your", "an", "on", "by", "this", "will", "of", "a", "and", "i", "my", "in", "", "with", "that","from", "was" , "name"];
+
+    const lowerAlphaNum = input.replace(/['"\.,-\/|#!$%\^&\*;:{}=\-_``~()]/g, "").toLowerCase();
+    const filtered = lowerAlphaNum.split(" ").filter(word => exclude.indexOf(word) === -1);
+    const frequencies = {};
+    filtered.forEach(word => {
+    frequencies[word] = (frequencies[word] || 0) + 1;
+    });
+    // console.log(typeof frequencies)
+    // const sortedArr = Object.keys(frequencies).map(word => ({
+    // word: word,
+    // frequency: frequencies[word]
+    // })).sort((a, b) => b.frequency - a.frequency);
+    // console.log(sortedArr);
+    // let word = [[]];
+    // sortedArr.forEach(item => {
+    // // console.log(item.word + ': ' + item.frequency);
+    // word.push([item.word , item.frequency])
+    // });;
+    // console.log(word)
     // console.log(currDoc);
+    // const trimmedArr = sortedArr.slice(1, 20);
+    // console.log(trimmedArr[0]);
+    // console.log(trimmedArr);
+    // console.log(trimmedArr[0]);
     let firstName = req.cookies.firstName;
     let userType = req.cookies.userType;
     return res.render('checkFeedbacks.ejs', {
         name: "Acknowledge Patient Feedbacks " ,
         firstName : firstName,
         userType : userType,
-        apts: allapts
+        apts: allapts,
+        list : frequencies
     });
 };
  
@@ -703,6 +741,52 @@ module.exports.giveReport = async function giveReport(req, res){
     
     
 };
+
+module.exports.cloud = async function cloud(req, res){
+
+    let words = "";
+    words += "I’m a delicate and sensitive person, and Dr. Sujeeth I was totally impressed by the way I was treated first time when I met him in 2008 and the way he followed up. He is not only an Excellent Doctor , he is simple, superb Human being, Sober, approachable, a Great Social Worker, friendly approach with smiling face with his selfless service with his selfless services. Always amazing treatment. He is an extraordinary intelligent Doctor with human values. Nice advise, hardly find such non commercial Doctors in this era. Apart from dedication , he also has slight wit which impresses me more resulting in great relief from stress while chatting with him. May God bless him and best wishes for the future."
+    words += `Had the exact same procedure done twice. With the exact same insurance. In the same month! I
+    checked with my doctor before both procedures on pricing with my insurance. The first one was $130. I
+    paid in full The doctor persuaded me to go to plastics for the 2nd one due to their “comfort levels.” (Doctor insisted
+    both office sides were the same price) So instead of a total bill of $320, it was $785! Not to mention my
+    willingness to pay an extra $60 copay the 2nd time. Guess who got screwed with NO APOLOGY!? I
+    would have been with this place going on 3 years. False claims are NOT taking care of your patients!
+    I cannot express how much I felt slapped in the facel I've never left a negative internet feedback
+    anywhere beforel Terrible way to treat a good person`;
+
+    words += "Had the exact same procedure done twice. With the exact same insurance. In the same month! |checked with my doctor before both procedures on pricing with my insurance. The first one was $130. |paid in full The doctor persuaded me to go to plastics for the 2nd one due to their “comfort levels.” (Doctor insisted both office sides were the same price) So instead of a total bill of $320, it was $785! Not to mention my willingness to pay an extra $60 copay the 2nd time. Guess who got screwed with NO APOLOGY!? |would have been with this place going on 3 years. False claims are NOT taking care of your patients! I cannot express how much I felt slapped in the facel I've never left a negative internet feedback anywhere beforel Terrible way to treat a good person";
+    words += "pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing pricing "
+    words += `gets it. From his excellent treatment, curiosity, investigative mind and ability to connect, you know where you stand immediately and what next steps look like. Attention doctors if you want a masterclass in watching a doctor bring medical knowledge and build rapport so that message is heard by patient and therefore delivered watch this guy.`;
+    words += 'was terrific. Knowledgeable, sensitive, informative… I immediately felt at ease – and felt confident in my receiving expert medical care. Staff was great, too. Walked away, very impressed w. the overall experience. HIGHLY recommend.';
+    words += "Great experience as a first timer. I barely waited to be helped when I checked in. The staff and Dr. (Name) were all very friendly and helpful. I especially loved how Dr. (Name) really took his time to explain my conditions with me as well as my treatment options. I had a great visit and the doctor’s demeanor has really put me at ease so I highly recommend this clinic.";
+    words += "Great experience as a first timer. I barely waited to be helped when I checked in. The staff and Dr. (Name) were all very friendly and helpful. I especially loved how Dr. (Name) really took his time to explain my conditions with me as well as my treatment options. I had a great visit and the doctor’s demeanor has really put me at ease so I highly recommend this clinic.";
+    words += "Great medical office, wonderful and warm experience from start to finish. Appreciate Dr. (Name) taking time to go over the diagnosis clearly and treatment options. Was referred over by my general doctor and can see why. Highly recommended."
+    words += "Great medical office, wonderful and warm experience from start to finish. Appreciate Dr. (Name) taking time to go over the diagnosis clearly and treatment options. Was referred over by my general doctor and can see why. Highly recommended."
+    words += "Great medical office, wonderful and warm experience from start to finish. Appreciate Dr. (Name) taking time to go over the diagnosis clearly and treatment options. Was referred over by my general doctor and can see why. Highly recommended."
+    words += "Great medical office, wonderful and warm experience from start to finish. Appreciate Dr. (Name) taking time to go over the diagnosis clearly and treatment options. Was referred over by my general doctor and can see why. Highly recommended."
+    words += "The services that I receive from (DN) is excellent. Dr. (Name) and the staff are friendly and ensure that I am properly informed about my health and care. I would have no qualms in recommending them to friendly and friends."
+    words += "The services that I receive from (DN) is excellent. Dr. (Name) and the staff are friendly and ensure that I am properly informed about my health and care. I would have no qualms in recommending them to friendly and friends."
+    words += "The services that I receive from (DN) is excellent. Dr. (Name) and the staff are friendly and ensure that I am properly informed about my health and care. I would have no qualms in recommending them to friendly and friends."
+    words += "The services that I receive from (DN) is excellent. Dr. (Name) and the staff are friendly and ensure that I am properly informed about my health and care. I would have no qualms in recommending them to friendly and friends."
+    words += "The services that I receive from (DN) is excellent. Dr. (Name) and the staff are friendly and ensure that I am properly informed about my health and care. I would have no qualms in recommending them to friendly and friends."
+    words += "The services that I receive from (DN) is excellent. Dr. (Name) and the staff are friendly and ensure that I am properly informed about my health and care. I would have no qualms in recommending them to friendly and friends."
+    words += "The services that I receive from (DN) is excellent. Dr. (Name) and the staff are friendly and ensure that I am properly informed about my health and care. I would have no qualms in recommending them to friendly and friends."
+    words += "pricing   "
+    let input = words;
+    const exclude = ["to", "is", "for", "you", "the", "your", "an", "on", "by", "this", "will", "of", "a", "and", "i", "my", "in", "", "with", "that","from", "was" , "name"];
+
+    const lowerAlphaNum = input.replace(/['"\.,-\/|#!$%\^&\*;:{}=\-_``~()]/g, "").toLowerCase();
+    const filtered = lowerAlphaNum.split(" ").filter(word => exclude.indexOf(word) === -1);
+    const frequencies = {};
+    filtered.forEach(word => {
+    frequencies[word] = (frequencies[word] || 0) + 1;
+    });
+    // console.log(typeof frequencies)
+
+    return res.send(frequencies);
+}
+
 
 
 
