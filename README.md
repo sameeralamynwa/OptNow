@@ -4,10 +4,10 @@ This is the github repository of OptNow; know your health risk better platform, 
 
 The problem statement for the event was concerning designing a product that can help identify subsets of geographic regions, ethnical groups, or other inhabitants that confront different health discrepancies and keep them out of the red zone. 
 
-The project is completed with the collaboration of the following three members:
-• Saad Baig
-• Manish Sharma
-• Sameer Alam
+The project is completed with the collaboration of the following three members: <br>
+• Saad Baig <br>
+• Manish Sharma <br>
+• Sameer Alam <br>
 
 Product:
 OptNow enables better interaction between healthcare providers, doctors, and patients making access to organized medical collaboration easy and seamless.
